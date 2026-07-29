@@ -438,7 +438,7 @@
   </div>
 
   <script>
-    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby0xVwkB0jIOja--xuSV_Upxz3DAAOTlrkdkgDfwjVamqNe9d9WAPwLyNCi58oNbpjmIA/exec';
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw08KU0iywH6BBFfhPRM8U7HrmDgnKXVIBZmAGuv4erD3B45K2YjGa8ME2ciXxVUw16uQ/exec';
 
     // State
     let currentPage='beranda', currentMateri=0, currentKuisQ=0;
@@ -969,7 +969,7 @@
       }catch(e){}
 
       if(APPS_SCRIPT_URL){
-        try{ await fetch(APPS_SCRIPT_URL,{method:'POST',body:JSON.stringify({type:'kuis',materi:'BK-SMT1',...record})}); }catch(e){}
+        try{ await fetch(APPS_SCRIPT_URL,{method:'POST',body:JSON.stringify({type:'kuis',materi:'BK-SMT1','token': '43596e48-d852-4619-9d23-586d0c4be44b',...record})}); }catch(e){}
       }
 
       document.getElementById('kuis-save-status').innerHTML='✅ Hasil tersimpan. <button onclick="downloadKuisCSV()" class="ml-2 underline text-indigo-600 text-xs">📥 Unduh CSV</button>';
@@ -1060,7 +1060,7 @@
       }catch(e){}
 
       if(APPS_SCRIPT_URL){
-        try{ await fetch(APPS_SCRIPT_URL,{method:'POST',body:JSON.stringify({type:'refleksi',materi:'BK-SMT1',...entry})}); }catch(e){}
+        try{ await fetch(APPS_SCRIPT_URL,{method:'POST',body:JSON.stringify({type:'refleksi',materi:'BK-SMT1','token': '43596e48-d852-4619-9d23-586d0c4be44b',...entry})}); }catch(e){}
       }
 
       fb.innerHTML='<div class="bg-emerald-50 text-emerald-800 rounded-lg p-3 text-sm mt-3">✅ Refleksi berhasil disimpan!</div>';
@@ -1120,4 +1120,3 @@
   </script>
  </body>
 </html>
-
