@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="id" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kelas 7 - Portal Informatika SMP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0}
+    body{
+      font-family:'Plus Jakarta Sans',sans-serif;
+      background:#FAFAFF;
+      color:#1E1B4B;
+      overflow-x:hidden;
+    }
+    .font-display{font-family:'Fredoka',sans-serif}
+    .blob{
+      position:absolute;border-radius:50%;
+      filter:blur(60px);
+      opacity:.35;
+      z-index:0;
+      pointer-events:none;
+    }
+    @keyframes drift1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(40px,-30px) scale(1.08)}}
+    @keyframes drift2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-50px,40px) scale(1.05)}}
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+    .fade-in-up{animation:fadeInUp .25s ease-out both}
+
+    .logo-slot{
+      width:64px;height:64px;
+      display:flex;align-items:center;justify-content:center;
+      flex-shrink:0;
+      transition:.25s;
+    }
+
+    .module-card{
+      border-radius:28px;padding:1.75rem;background:#fff;
+      border:2px solid transparent;
+      transition:transform .35s cubic-bezier(.22,1,.36,1), box-shadow .35s, border-color .35s;
+      text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;
+    }
+    .module-card::before{
+      content:"";position:absolute;inset:0;
+      background:linear-gradient(160deg,var(--card-accent,#4F46E5) 0%,transparent 60%);
+      opacity:.06;z-index:-1;
+    }
+    .module-card:hover{
+      transform:translateY(-10px) rotate(-0.5deg);
+      box-shadow:0 24px 48px -12px rgba(30,27,75,.25);
+      border-color:var(--card-accent,#4F46E5);
+    }
+    .module-icon{
+      width:64px;height:64px;border-radius:18px;
+      display:flex;align-items:center;justify-content:center;font-size:2rem;
+      background:rgba(79,70,229,.12);
+      transition:transform .35s;
+    }
+    .module-card:hover .module-icon{transform:scale(1.1) rotate(-6deg)}
+    .materi-pill{
+      display:inline-block;font-size:.72rem;font-weight:600;
+      padding:.25rem .6rem;border-radius:999px;
+      background:#F1F0FE;color:#1E1B4B;margin:.15rem;
+    }
+    .status-badge{
+      display:inline-flex;align-items:center;gap:.4rem;
+      font-family:'Fredoka',sans-serif;font-weight:600;
+      padding:.3rem .85rem;border-radius:999px;font-size:.78rem;
+      color:#fff;
+    }
+    .back-link{display:inline-flex;align-items:center;gap:.4rem;font-weight:600;color:#4F46E5;text-decoration:none;font-size:.9rem}
+    .back-link:hover{text-decoration:underline}
+  </style>
+</head>
+
+<body>
+  <div class="blob" style="width:380px;height:380px;background:#4F46E5;top:-120px;right:-100px;animation:drift1 22s ease-in-out infinite"></div>
+  <div class="blob" style="width:320px;height:320px;background:#7C3AED;bottom:-100px;left:-80px;animation:drift2 26s ease-in-out infinite"></div>
+
+  <header class="max-w-5xl mx-auto px-5 sm:px-8 pt-6 flex items-center justify-between gap-4 relative z-10">
+    <div class="flex items-center gap-3">
+      <div class="logo-slot">
+        <img src="../assets/images/logo-pb.png" alt="Logo Sekolah">
+      </div>
+      <div>
+        <p class="font-display font-bold text-sm sm:text-base leading-tight">SMP Putra Bangsa</p>
+        <p class="text-xs text-indigo-400">Mata Pelajaran Informatika</p>
+      </div>
+    </div>
+    <a href="../index.html" class="back-link">← Beranda</a>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-5 sm:px-8 py-12 relative z-10">
+    <div class="fade-up text-center mb-10">
+      <span class="inline-flex items-center gap-2 bg-white border border-indigo-100 shadow-sm rounded-full px-4 py-1.5 text-xs sm:text-sm font-semibold text-primary mb-4" style="--primary:#4F46E5;">
+        🚀 Kelas 7 • Algoritma, Python & Kecerdasan Artifisial
+      </span>
+      <h1 class="font-display font-bold text-3xl sm:text-5xl mb-3">Pilih Modul Belajar</h1>
+
+      <div class="mt-6 flex justify-center">
+        <div class="inline-flex p-1 bg-white/70 border border-indigo-100 rounded-2xl shadow-sm gap-1" role="tablist" aria-label="Semester">
+          <button
+            type="button"
+            id="tabSemester1"
+            role="tab"
+            aria-selected="true"
+            aria-controls="semester1Panel"
+            class="px-4 py-2 rounded-xl text-sm font-semibold bg-indigo-50 text-[#1E1B4B] border border-indigo-100 semester-tab"
+            data-target="semester1"
+          >
+            Semester I
+          </button>
+          <button
+            type="button"
+            id="tabSemester2"
+            role="tab"
+            aria-selected="false"
+            aria-controls="semester2Panel"
+            class="px-4 py-2 rounded-xl text-sm font-semibold text-indigo-400 hover:text-[#1E1B4B] semester-tab"
+            data-target="semester2"
+          >
+            Semester II
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEMESTER 1 PANEL -->
+    <section id="semester1Panel" class="semester-panel">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+        
+        <!-- Modul 1 SMT 1 -->
+        <a class="module-card fade-up" style="--card-accent:#2563EB;animation-delay:.05s" href="./1-berpikir-komputasional.html">
+          <div class="flex items-center justify-between mb-4">
+            <div class="module-icon" style="background:rgba(37,99,235,.12)">🧠</div>
+            <span class="status-badge" style="background:#10B981">✅ Tersedia</span>
+          </div>
+          <h3 class="font-display font-bold text-xl mb-1">Berpikir Komputasional &amp; Pengantar Koding</h3>
+          <p class="text-sm text-indigo-400 mb-4">Melatih dekomposisi, pengenalan pola, abstraksi, serta pemecahan masalah dasar sebelum membuat kode.</p>
+          <div class="mb-4">
+            <span class="materi-pill">Logika</span><span class="materi-pill">Algoritma</span><span class="materi-pill">Game</span>
+          </div>
+        </a>
+
+        <!-- Modul 2 SMT 1 -->
+        <a class="module-card fade-up" style="--card-accent:#0284C7;animation-delay:.10s" href="./python-dasar.html">
+          <div class="flex items-center justify-between mb-4">
+            <div class="module-icon" style="background:rgba(2,132,199,.12)">🐍</div>
+            <span class="status-badge" style="background:#10B981">✅ Tersedia</span>
+          </div>
+          <h3 class="font-display font-bold text-xl mb-1">Pengenalan Dasar Pemrograman Python</h3>
+          <p class="text-sm text-indigo-400 mb-4">Belajar sintaks Python sederhana, variabel, tipe data, percabangan (if-else), dan perulangan secara interaktif.</p>
+          <div class="mb-4">
+            <span class="materi-pill">Sintaks</span><span class="materi-pill">Praktik Kode</span><span class="materi-pill">Kuis</span>
+          </div>
+        </a>
+
+        <!-- Modul 3 SMT 1 -->
+        <a class="module-card fade-up" style="--card-accent:#059669;animation-delay:.15s" href="./comingsoon.html">
+          <div class="flex items-center justify-between mb-4">
+            <div class="module-icon" style="background:rgba(5,150,105,.12)">📊</div>
+            <span class="status-badge" style="background:#CBD5E1;color:#475569">Segera</span>
+          </div>
+          <h3 class="font-display font-bold text-xl mb-1">Mengolah Data dengan Python</h3>
+          <p class="text-sm text-indigo-400 mb-4">Eksplorasi cara mengumpulkan, membersihkan, dan menganalisis data angka maupun teks menggunakan skrip Python.</p>
+          <div class="mb-4">
+            <span class="materi-pill">Struktur Data</span><span class="materi-pill">Analisis</span><span class="materi-pill">Proyek</span>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- SEMESTER 2 PANEL -->
+    <section id="semester2Panel" class="semester-panel hidden">
+      <div class="grid sm:grid-cols-2 gap-6 mb-10">
+        
+        <!-- Modul 1 SMT 2 -->
+        <a class="module-card fade-up" style="--card-accent:#7C3AED;animation-delay:.05s" href="./comingsoon.html">
+          <div class="flex items-center justify-between mb-4">
+            <div class="module-icon" style="background:rgba(124,58,237,.12)">🤖</div>
+            <span class="status-badge" style="background:#CBD5E1;color:#475569">Segera</span>
+          </div>
+          <h3 class="font-display font-bold text-xl mb-1">Mengenal KA &amp; Etika Penggunaannya</h3>
+          <p class="text-sm text-indigo-400 mb-4">Konsep dasar Kecerdasan Artifisial (KA), manfaat dalam kehidupan sehari-hari, serta etika dan privasi digital.</p>
+          <div class="mb-4">
+            <span class="materi-pill">Konsep KA</span><span class="materi-pill">Etika Digital</span><span class="materi-pill">Diskusi</span>
+          </div>
+        </a>
+
+        <!-- Modul 2 SMT 2 -->
+        <a class="module-card fade-up" style="--card-accent:#DB2777;animation-delay:.10s" href="./comingsoon.html">
+          <div class="flex items-center justify-between mb-4">
+            <div class="module-icon" style="background:rgba(219,39,119,.12)">✨</div>
+            <span class="status-badge" style="background:#CBD5E1;color:#475569">Segera</span>
+          </div>
+          <h3 class="font-display font-bold text-xl mb-1">Tipe Kecerdasan Artifisial &amp; Teknologi GenAI</h3>
+          <p class="text-sm text-indigo-400 mb-4">Memahami perbedaan AI Simbolik vs Pembelajaran Mesin (ML), serta eksplorasi keajaiban Generative AI pembuat teks &amp; gambar.</p>
+          <div class="mb-4">
+            <span class="materi-pill">Machine Learning</span><span class="materi-pill">GenAI</span><span class="materi-pill">Eksperimen</span>
+          </div>
+        </a>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="relative z-10 text-center pb-8 px-5">
+    <div class="max-w-md mx-auto border-t border-indigo-100 pt-6">
+      <p class="text-xs text-indigo-300">Dikembangkan oleh <strong class="text-indigo-400">Ridwan Na'im, S.Kom.</strong> • Tahun 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const tab1 = document.getElementById('tabSemester1');
+      const tab2 = document.getElementById('tabSemester2');
+      const panel1 = document.getElementById('semester1Panel');
+      const panel2 = document.getElementById('semester2Panel');
+
+      function setActive(tab) {
+        tab1.setAttribute('aria-selected', tab === tab1 ? 'true' : 'false');
+        tab2.setAttribute('aria-selected', tab === tab2 ? 'true' : 'false');
+
+        if (tab === tab1) {
+          tab1.classList.add('bg-indigo-50','text-[#1E1B4B]','border','border-indigo-100');
+          tab1.classList.remove('text-indigo-400','hover:text-[#1E1B4B]');
+          tab2.classList.add('text-indigo-400','hover:text-[#1E1B4B]');
+          tab2.classList.remove('bg-indigo-50','text-[#1E1B4B]','border','border-indigo-100');
+
+          panel2.classList.add('hidden');
+          panel1.classList.remove('hidden');
+
+          panel1.classList.remove('fade-in-up');
+          void panel1.offsetWidth;
+          panel1.classList.add('fade-in-up');
+        } else {
+          tab2.classList.add('bg-indigo-50','text-[#1E1B4B]','border','border-indigo-100');
+          tab2.classList.remove('text-indigo-400','hover:text-[#1E1B4B]');
+          tab1.classList.add('text-indigo-400','hover:text-[#1E1B4B]');
+          tab1.classList.remove('bg-indigo-50','text-[#1E1B4B]','border','border-indigo-100');
+
+          panel1.classList.add('hidden');
+          panel2.classList.remove('hidden');
+
+          panel2.classList.remove('fade-in-up');
+          void panel2.offsetWidth;
+          panel2.classList.add('fade-in-up');
+        }
+      }
+
+      if (tab1 && tab2 && panel1 && panel2) {
+        tab1.addEventListener('click', () => setActive(tab1));
+        tab2.addEventListener('click', () => setActive(tab2));
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="id" class="h-full">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal Koding & AI - Mata Pelajaran Koding dan KA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+:root{
+  --bg:#FAFAFF;
+  --ink:#1E1B4B;
+  --primary:#4F46E5;
+  --secondary:#7C3AED;
+  --k7:#10B981;
+  --k7-dark:#059669;
+  --k8:#4F46E5;
+  --k8-dark:#4338CA;
+  --k9:#F59E0B;
+  --k9-dark:#D97706;
+  --surface:#FFFFFF;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  overflow-x:hidden;
+}
+.font-display{font-family:'Fredoka',sans-serif}
+
+/* ===== Background atmosphere ===== */
+.blob{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(60px);
+  opacity:.35;
+  z-index:0;
+  pointer-events:none;
+}
+@keyframes drift1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(40px,-30px) scale(1.08)}}
+@keyframes drift2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-50px,40px) scale(1.05)}}
+@keyframes drift3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(30px,30px) scale(0.95)}}
+
+/* ===== Header ===== */
+.site-header{position:relative;z-index:10}
+.logo-slot{
+  width:64px;height:64px;
+  /* border:2.5px dashed #C7C3F5; */
+  /* border-radius:16px; */
+  display:flex;align-items:center;justify-content:center;
+  /* background:#fff; */
+  flex-shrink:0;
+  transition:.25s;
+}
+/* .logo-slot:hover{border-color:var(--primary);background:#F5F4FF} */
+.logo-slot img{width:100%;height:100%;object-fit:contain;border-radius:14px}
+
+/* ===== Hero ===== */
+.hero{position:relative;z-index:1}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(var(--rot,0deg))}50%{transform:translateY(-18px) rotate(var(--rot,0deg))}}
+@keyframes bobSlow{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-12px) rotate(6deg)}}
+.float-icon{
+  position:absolute;
+  animation:bob 5s ease-in-out infinite;
+  filter:drop-shadow(0 8px 16px rgba(79,70,229,.18));
+  user-select:none;
+}
+.float-icon.slow{animation:bobSlow 7s ease-in-out infinite}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp .7s cubic-bezier(.22,1,.36,1) both}
+
+/* Headline gradient text */
+.headline-grad{
+  background:linear-gradient(120deg,var(--primary) 10%,var(--secondary) 50%,var(--k9) 95%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+
+/* ===== World path / level select ===== */
+.path-wrap{position:relative}
+.path-svg{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.path-line{
+  stroke-dasharray:10 12;
+  stroke-linecap:round;
+  animation:dash 30s linear infinite;
+}
+@keyframes dash{to{stroke-dashoffset:-440}}
+
+.world-card{
+  position:relative;z-index:1;
+  border-radius:28px;
+  padding:1.75rem;
+  background:var(--surface);
+  border:2px solid transparent;
+  transition:transform .35s cubic-bezier(.22,1,.36,1), box-shadow .35s, border-color .35s;
+  text-decoration:none;
+  color:inherit;
+  display:block;
+  overflow:hidden;
+}
+.world-card::before{
+  content:"";
+  position:absolute;inset:0;
+  opacity:0;
+  transition:opacity .35s;
+  z-index:-1;
+}
+.world-card:hover{
+  transform:translateY(-10px) rotate(-0.5deg);
+  box-shadow:0 24px 48px -12px rgba(30,27,75,.25);
+}
+.world-card:hover::before{opacity:1}
+.world-card.k7{--accent:var(--k7);--accent-dark:var(--k7-dark);box-shadow: 0 4px 30px rgba(58, 141, 79, 0.27);}
+.world-card.k8{--accent:var(--k8);--accent-dark:var(--k8-dark);box-shadow: 0 4px 30px rgba(90, 104, 231, 0.27);}
+.world-card.k9{--accent:var(--k9);--accent-dark:var(--k9-dark);box-shadow: 0 4px 30px rgba(251, 197, 35, 0.27);}
+.world-card:hover{border-color:var(--accent)}
+.world-card::before{background:linear-gradient(160deg,var(--accent) 0%,transparent 60%);opacity:.06}
+
+.world-badge{
+  display:inline-flex;align-items:center;gap:.4rem;
+  background:var(--accent);color:#fff;
+  font-family:'Fredoka',sans-serif;font-weight:600;
+  padding:.3rem .85rem;border-radius:999px;font-size:.78rem;
+  box-shadow:0 6px 14px -4px var(--accent);
+}
+.world-icon-wrap{
+  width:64px;height:64px;border-radius:18px;
+  background:color-mix(in srgb, var(--accent) 14%, white);
+  display:flex;align-items:center;justify-content:center;
+  font-size:2rem;
+  transition:transform .35s;
+}
+.world-card:hover .world-icon-wrap{transform:scale(1.1) rotate(-6deg)}
+
+.materi-pill{
+  display:inline-block;font-size:.72rem;font-weight:600;
+  padding:.25rem .6rem;border-radius:999px;
+  background:#F1F0FE;color:var(--ink);
+  margin:.15rem;
+}
+.world-card.k7 .materi-pill{background:#ECFDF5;color:#065F46}
+.world-card.k9 .materi-pill{background:#FFFBEB;color:#92400E}
+
+.cta-arrow{transition:transform .25s}
+.world-card:hover .cta-arrow{transform:translateX(6px)}
+
+.status-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+
+/* ===== Floating shapes scroll reveal ===== */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s cubic-bezier(.22,1,.36,1)}
+.reveal.in{opacity:1;transform:translateY(0)}
+
+@media (prefers-reduced-motion: reduce){
+  .float-icon,.path-line,.blob{animation:none!important}
+  .reveal{transition:none;opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- Background blobs -->
+<div class="blob" style="width:420px;height:420px;background:var(--k8);top:-120px;left:-100px;animation:drift1 22s ease-in-out infinite"></div>
+<div class="blob" style="width:360px;height:360px;background:var(--k9);top:280px;right:-120px;animation:drift2 26s ease-in-out infinite"></div>
+<div class="blob" style="width:320px;height:320px;background:var(--k7);bottom:-100px;left:30%;animation:drift3 24s ease-in-out infinite"></div>
+
+<!-- ===================== HEADER ===================== -->
+<header class="site-header max-w-6xl mx-auto px-5 sm:px-8 pt-6 flex items-center justify-between gap-4">
+  <div class="flex items-center gap-3">
+    <!-- ============================================
+         SPACE LOGO SEKOLAH
+         Ganti div di bawah dengan:
+         <img src="logo-sekolah.png" alt="Logo Sekolah">
+         di dalam .logo-slot, atau hapus komentar di bawah.
+         ============================================ -->
+    <div class="logo-slot">
+      <img src="./assets/images/logo-pb.png" alt="Logo Sekolah">
+      <!-- <span class="text-[10px] font-semibold text-indigo-300 text-center leading-tight font-display">LOGO<br>SEKOLAH</span> -->
+    </div>
+    <div>
+      <p class="font-display font-700 text-sm sm:text-base font-bold leading-tight">SMP Putra Bangsa</p>
+      <p class="text-xs text-indigo-400">Mata Pelajaran Koding & AI</p>
+    </div>
+  </div>
+  <div class="hidden sm:flex items-center gap-2 text-xs sm:text-sm font-semibold text-indigo-400 bg-white/70 backdrop-blur px-4 py-2 rounded-full border border-indigo-100">
+    <img src="./assets/images/kumer.png" width="200px">
+  </div>
+</header>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero max-w-6xl mx-auto px-5 sm:px-8 pt-10 sm:pt-16 pb-16 sm:pb-24 text-center">
+
+  <!-- floating decor icons -->
+  <span class="float-icon hidden sm:block text-4xl sm:text-5xl" style="top:0%;left:6%;--rot:-8deg" aria-hidden="true">🧠</span>
+  <span class="float-icon slow hidden sm:block text-4xl sm:text-5xl" style="top:8%;right:8%;--rot:10deg" aria-hidden="true">💻</span>
+  <span class="float-icon hidden sm:block text-3xl sm:text-4xl" style="top:55%;left:2%;--rot:6deg;animation-delay:1.2s" aria-hidden="true">🤖</span>
+  <span class="float-icon slow hidden sm:block text-3xl sm:text-4xl" style="top:60%;right:4%;--rot:-10deg;animation-delay:.6s" aria-hidden="true">📊</span>
+  <span class="float-icon hidden md:block text-3xl" style="top:5%;left:30%;--rot:14deg;animation-delay:2s" aria-hidden="true">🎮</span>
+  <span class="float-icon slow hidden md:block text-3xl" style="top:2%;right:28%;--rot:-12deg;animation-delay:1.6s" aria-hidden="true">🧩</span>
+
+  <h1 class="fade-up font-display font-bold text-4xl sm:text-6xl leading-tight mb-4" style="animation-delay:.15s">
+    Selamat Datang di <br class="hidden sm:block">
+    <span class="headline-grad">Portal Koding & AI</span>
+  </h1>
+
+  <p class="fade-up max-w-xl mx-auto text-indigo-400 text-sm sm:text-base mb-10" style="animation-delay:.25s">
+    Materi, simulasi, game, kuis, dan refleksi belajar dalam satu tempat.
+    Pilih kelasmu dan mulai petualangan berpikir komputasionalmu! 🚀
+  </p>
+
+  <a href="#pilih-kelas" class="fade-up inline-flex items-center gap-2 font-display font-semibold bg-primary text-indigo px-6 py-3 rounded-2xl shadow-lg shadow-indigo-200 hover:bg-indigo-700 hover:text-white hover:-translate-y-0.5 transition" style="animation-delay:.35s">
+    Pilih Kelasmu <span aria-hidden="true">↓</span>
+  </a>
+</section>
+
+<!-- ===================== PILIH KELAS ===================== -->
+<main id="pilih-kelas" class="max-w-6xl mx-auto px-5 sm:px-8 pb-20 relative z-10">
+
+  <div class="text-center mb-10 reveal">
+    <h2 class="font-display font-bold text-2xl sm:text-3xl mb-2">🗺️ Pilih Dunia Belajarmu</h2>
+    <p class="text-indigo-400 text-sm sm:text-base">Setiap tingkat punya materi, game, dan tantangan masing-masing.</p>
+  </div>
+
+  <div class="path-wrap grid sm:grid-cols-3 gap-6 sm:gap-8">
+
+    <!-- connecting path (desktop only) -->
+    <svg class="path-svg hidden sm:block" viewBox="0 0 900 260" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M150,60 C 320,180 380,180 450,60 S 620,180 750,60" fill="none" stroke="#C7C3F5" stroke-width="4" class="path-line"/>
+      <circle cx="150" cy="60" r="7" fill="var(--k7)"/>
+      <circle cx="450" cy="60" r="7" fill="var(--k8)"/>
+      <circle cx="750" cy="60" r="7" fill="var(--k9)"/>
+    </svg>
+
+    <!-- KELAS 7 -->
+    <a href="7/index.html" class="world-card k7 reveal" style="transition-delay:.05s">
+      <div class="flex items-center justify-between mb-4">
+        <div class="world-icon-wrap">🌱</div>
+        <span class="world-badge">Kelas 7</span>
+      </div>
+      <h3 class="font-display font-bold text-xl mb-1">Dunia Dasar</h3>
+      <p class="text-sm text-indigo-400 mb-4">Belajar berpikir komputasional, pemrograman dasar, dan pengenalan KA.</p>
+      <div class="mb-4">
+        <span class="materi-pill">Berpikir Komputasional</span>
+        <span class="materi-pill">Pengenalan Pemrograman Python</span>
+        <span class="materi-pill">Python untuk Pengolahan Data</span>
+        <span class="materi-pill">KA dan Etika</span>
+        <span class="materi-pill">Tipe KA dan GenAI</span>
+      </div>
+      <div class="flex items-center justify-between text-sm font-semibold" style="color:var(--accent-dark)">
+        <span class="flex items-center gap-1.5"><span class="status-dot" style="background:var(--k7)"></span> 5 Materi</span>
+        <span class="cta-arrow">Mulai Belajar →</span>
+      </div>
+    </a>
+
+    <!-- KELAS 8 -->
+    <a href="8/index.html" class="world-card k8 reveal" style="transition-delay:.15s">
+      <div class="flex items-center justify-between mb-4">
+        <div class="world-icon-wrap">⚙️</div>
+        <span class="world-badge">Kelas 8</span>
+      </div>
+      <h3 class="font-display font-bold text-xl mb-1">Dunia Menengah</h3>
+      <p class="text-sm text-indigo-400 mb-4">Mengenal pola, analisis dan pengolahan data, dan memanfaatkan KA secara Etis.</p>
+      <div class="mb-4">
+        <span class="materi-pill">Pengenalan Pola</span>
+        <span class="materi-pill">Python Lanjutan</span>
+        <span class="materi-pill">Etika Penggunaan GenAI</span>
+        <span class="materi-pill">Literasi Digital KA</span>
+      </div>
+      <div class="flex items-center justify-between text-sm font-semibold" style="color:var(--accent-dark)">
+        <span class="flex items-center gap-1.5"><span class="status-dot" style="background:var(--k8)"></span> 4 Materi</span>
+        <span class="cta-arrow">Mulai Belajar →</span>
+      </div>
+    </a>
+
+    <!-- KELAS 9 -->
+    <a href="9/index.html" class="world-card k9 reveal" style="transition-delay:.25s">
+      <div class="flex items-center justify-between mb-4">
+        <div class="world-icon-wrap">🏆</div>
+        <span class="world-badge">Kelas 9</span>
+      </div>
+      <h3 class="font-display font-bold text-xl mb-1">Dunia Mahir</h3>
+      <p class="text-sm text-indigo-400 mb-4">Menerapkan Koding dan KA secara nyata lewat proyek &amp; analisis.</p>
+      <div class="mb-4">
+        <span class="materi-pill">Coming Soon.</span>
+      </div>
+      <div class="flex items-center justify-between text-sm font-semibold" style="color:var(--accent-dark)">
+        <span class="flex items-center gap-1.5"><span class="status-dot" style="background:var(--k9)"></span> ? Materi</span>
+        <span class="cta-arrow">Mulai Belajar →</span>
+      </div>
+    </a>
+
+  </div>
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="relative z-10 text-center pb-8 px-5">
+  <div class="max-w-md mx-auto border-t border-indigo-100 pt-6">
+    <p class="text-xs text-primary-300">Dikembangkan oleh <strong class="text-indigo-400">Ridwan Na'im, S.Kom.</strong> • Tahun 2026</p>
+  </div>
+</footer>
+
+<script>
+// Scroll reveal
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+},{threshold:.15});
+revealEls.forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
