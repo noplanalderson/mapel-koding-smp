@@ -96,6 +96,7 @@
       <button onclick="navigateTo('materi')" class="nav-btn flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all" data-nav="materi"><i data-lucide="book-open" class="w-4 h-4"></i><span class="hidden sm:inline">Materi</span></button>
       <button onclick="navigateTo('simulasi')" class="nav-btn flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all" data-nav="simulasi"><i data-lucide="play-circle" class="w-4 h-4"></i><span class="hidden sm:inline">Simulasi</span></button>
       <button onclick="navigateTo('game')" class="nav-btn flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all" data-nav="game"><i data-lucide="gamepad-2" class="w-4 h-4"></i><span class="hidden sm:inline">Game</span></button>
+      <button onclick="navigateTo('diskusi')" class="nav-btn flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all" data-nav="diskusi"><i data-lucide="users" class="w-4 h-4"></i><span class="hidden sm:inline">Diskusi</span></button>
       <button onclick="navigateTo('kuis')" class="nav-btn flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all" data-nav="kuis"><i data-lucide="clipboard-list" class="w-4 h-4"></i><span class="hidden sm:inline">Kuis</span></button>
       <button onclick="navigateTo('refleksi')" class="nav-btn flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all" data-nav="refleksi"><i data-lucide="message-circle" class="w-4 h-4"></i><span class="hidden sm:inline">Refleksi</span></button>
       <a class="nav-btn flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all" href="./index.html"><i data-lucide="log-out" class="w-4 h-4"></i><span class="hidden sm:inline">Halaman Utama</span></a>
@@ -113,6 +114,11 @@
         </div>
         <h2 class="text-3xl md:text-4xl font-bold text-dark mb-3">Belajar Berpikir Komputasional</h2>
         <p class="text-gray-600 max-w-2xl mx-auto">Pecah masalah, cari pola, pilih info penting, lalu susun langkah penyelesaian. Yuk mulai!</p>
+      </div>
+
+      <div class="max-w-2xl mx-auto bg-blue-50 border border-blue-200 rounded-2xl p-4 mb-8 text-sm text-blue-800 text-left">
+        <p class="font-semibold mb-1">📌 Alur Pertemuan Ke-2 (2 x 35 menit)</p>
+        <p>Konsep Berpikir Komputasional sudah dijelaskan guru di pertemuan sebelumnya. Gunakan halaman <strong>Materi</strong> di sini hanya sebagai bacaan ulang cepat (±5 menit), lalu fokuskan waktu pada <strong>Simulasi → Game → Diskusi Kelompok → Kuis Mandiri → Refleksi</strong>.</p>
       </div>
 
       <div class="grid md:grid-cols-2 gap-6 mb-8">
@@ -182,8 +188,9 @@
 
         <!-- Sim 1 Dekomposisi -->
         <div class="bg-white rounded-2xl p-6 shadow-sm">
-          <h3 class="font-bold text-lg mb-2 flex items-center gap-2"><span class="text-2xl">🧩</span> Simulasi 1: Dekomposisi Tugas Latihan</h3>
-          <p class="text-gray-600 text-sm mb-4">Pecah masalah “Mengerjakan PR Matematika” menjadi langkah-langkah kecil. Pilih langkah yang tepat!</p>
+          <h3 class="font-bold text-lg mb-2 flex items-center gap-2"><span class="text-2xl">🧩</span> Simulasi 1: Dekomposisi Proyek Mading Kelas</h3>
+          <p class="text-gray-600 text-sm mb-2">Kelasmu akan membuat <strong>mading (majalah dinding)</strong> untuk acara sekolah. Ini tugas besar yang perlu dipecah menjadi <strong>bagian-bagian yang bisa dikerjakan terpisah</strong> oleh anggota kelompok yang berbeda. Pilih bagian-bagian (sub-tugas) yang tepat!</p>
+          <div class="bg-indigo-50 rounded-lg p-3 text-xs text-indigo-700 mb-4">💡 Ingat: Dekomposisi <strong>bukan</strong> urutan langkah. Dekomposisi adalah memecah tugas besar menjadi bagian-bagian yang bisa dikerjakan oleh orang berbeda, tidak harus berurutan. Urutan langkah adalah bagian dari <strong>Algoritma</strong> (akan kamu latih di Simulasi 4).</div>
           <div id="sim1-area">
             <div class="grid sm:grid-cols-2 gap-3 mb-4" id="sim1-options"></div>
             <div id="sim1-selected" class="border-2 border-dashed border-indigo-200 rounded-xl p-4 min-h-[80px] mb-3">
@@ -300,6 +307,58 @@
       </div>
     </section>
 
+    <!-- DISKUSI KELOMPOK -->
+    <section id="page-diskusi" class="tab-content">
+      <div class="max-w-2xl mx-auto">
+        <h2 class="text-2xl font-bold text-dark mb-2">👥 Diskusi Kelompok</h2>
+        <p class="text-gray-600 mb-6">Sebelum mengerjakan Kuis Mandiri, diskusikan dulu bersama kelompokmu (3–4 orang). Tunjuk satu perwakilan untuk mengisi hasil diskusi di bawah ini.</p>
+
+        <div class="bg-white rounded-2xl p-5 shadow-sm mb-4">
+          <h3 class="font-bold text-gray-800 mb-4 flex items-center gap-2"><i data-lucide="users" class="w-4 h-4 text-primary"></i> Identitas Kelompok</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label for="diskusi-nama-kelompok" class="block text-sm font-medium text-gray-700 mb-1">Nama Kelompok</label>
+              <input type="text" id="diskusi-nama-kelompok" placeholder="Contoh: Kelompok 3" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+            </div>
+            <div>
+              <label for="diskusi-kelas" class="block text-sm font-medium text-gray-700 mb-1">Kelas</label>
+              <select id="diskusi-kelas" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                <option value="">-- Pilih Kelas --</option>
+                <option>Kelas 7A</option>
+                <option>Kelas 7B</option>
+                <option>Kelas 7C</option>
+              </select>
+            </div>
+          </div>
+          <div class="mt-4">
+            <label for="diskusi-anggota" class="block text-sm font-medium text-gray-700 mb-1">Anggota Kelompok</label>
+            <input type="text" id="diskusi-anggota" placeholder="Tulis nama semua anggota, pisahkan dengan koma" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-5 shadow-sm mb-4">
+          <label class="block text-sm font-medium text-gray-700 mb-2">1. Bandingkan jawaban Simulasi & Game kelompok kalian tadi. Bagian mana yang paling banyak berbeda pendapat? Kenapa?</label>
+          <textarea id="diskusi-1" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none resize-none" placeholder="Tulis hasil diskusi..."></textarea>
+        </div>
+        <div class="bg-white rounded-2xl p-5 shadow-sm mb-4">
+          <label class="block text-sm font-medium text-gray-700 mb-2">2. Beri satu contoh Dekomposisi dan satu contoh Algoritma dari kehidupan kalian sendiri (bukan dari contoh di materi). Apa bedanya?</label>
+          <textarea id="diskusi-2" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none resize-none" placeholder="Tulis hasil diskusi..."></textarea>
+        </div>
+        <div class="bg-white rounded-2xl p-5 shadow-sm mb-4">
+          <label class="block text-sm font-medium text-gray-700 mb-2">3. Menurut kelompok kalian, mengapa Pengenalan Pola dan Abstraksi penting SEBELUM menyusun Algoritma?</label>
+          <textarea id="diskusi-3" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none resize-none" placeholder="Tulis hasil diskusi..."></textarea>
+        </div>
+
+        <label class="flex items-start gap-2 bg-indigo-50 rounded-xl p-4 mb-4 cursor-pointer">
+          <input type="checkbox" id="diskusi-selesai-check" class="mt-1">
+          <span class="text-sm text-indigo-800">Kelompok kami sudah berdiskusi bersama dan siap melanjutkan ke Kuis Mandiri.</span>
+        </label>
+        <p id="diskusi-error" class="text-xs text-red-500 mb-3 hidden">Lengkapi nama kelompok, kelas, anggota, ketiga jawaban diskusi, dan centang kotak persetujuan terlebih dahulu.</p>
+        <button onclick="saveDiskusi()" class="w-full py-3 bg-primary text-white rounded-lg font-bold hover:bg-indigo-700 transition">Simpan &amp; Lanjut ke Kuis Mandiri</button>
+        <div id="diskusi-feedback" class="hidden"></div>
+      </div>
+    </section>
+
     <!-- KUIS -->
     <section id="page-kuis" class="tab-content">
       <div id="kuis-identity" class="max-w-md mx-auto">
@@ -311,6 +370,7 @@
               <label for="quiz-nama" class="block text-sm font-medium text-gray-700 mb-1">Nama Siswa</label>
               <input type="text" id="quiz-nama" placeholder="Masukkan nama lengkap" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none">
               <p id="quiz-nama-error" class="text-xs text-red-500 mt-1 hidden">Silakan isi nama terlebih dahulu.</p>
+              <p class="text-xs text-gray-400 mt-1">Nama ini dipakai guru untuk merekap nilai kelas.</p>
             </div>
             <div>
               <label for="quiz-kelas" class="block text-sm font-medium text-gray-700 mb-1">Kelas</label>
@@ -368,6 +428,7 @@
                   <option value="">-- Pilih Kelas --</option>
                   <option>Kelas 7A</option>
                   <option>Kelas 7B</option>
+                  <option>Kelas 7C</option>
                 </select>
                 <p id="refleksi-kelas-error" class="text-xs text-red-500 mt-1 hidden">Silakan pilih kelas terlebih dahulu.</p>
               </div>
@@ -438,24 +499,42 @@
   </div>
 
   <script>
-    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw08KU0iywH6BBFfhPRM8U7HrmDgnKXVIBZmAGuv4erD3B45K2YjGa8ME2ciXxVUw16uQ/exec';
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxFxAd5ZI5jII8w9N5lW4Cr_f9f_bH64kzmh1CHPE7a5MnnhlKNE6tsJde7KvHEyQr-Og/exec';
+    // PENTING: token ini HARUS SAMA PERSIS dengan SHARED_TOKEN di file Apps Script (.gs).
+    // Token ini tetap terlihat oleh siapa pun yang membuka "View Page Source" -
+    // fungsinya hanya menyaring bot/scanner acak, bukan pengaman mutlak.
+    const SHARED_TOKEN = '43596e48-d852-4619-9d23-586d0c4be44b';
+    const MAX_ATTEMPTS_PER_DAY = 2; // batas maksimal siswa mengerjakan kuis mandiri per hari
 
     // State
     let currentPage='beranda', currentMateri=0, currentKuisQ=0;
     let kuisAnswers=[], quizSubmitted=false;
+    let kuisSession=[];      // salinan 10 soal dengan urutan opsi jawaban diacak tiap sesi
+    let kuisHintsUsed=[];    // penanda soal mana saja yang petunjuknya sudah dibuka
     let gameLevel=0, gameQ=0, gameScore=0;
-    let progress={materi:[false,false,false,false,false], simulasi:false, game:false, kuis:false, refleksi:false};
+    let progress={materi:[false,false,false,false,false], simulasi:false, game:false, diskusi:false, kuis:false, refleksi:false};
     let badges={dekomposisi:false,pola:false,abstraksi:false,master:false};
 
     try{const s=localStorage.getItem('bk7_progress'); if(s) progress=JSON.parse(s); const b=localStorage.getItem('bk7_badges'); if(b) badges=JSON.parse(b);}catch(e){}
 
     function navigateTo(page){
+      // Gerbang: siswa tidak boleh mengerjakan Kuis Mandiri sebelum kelompoknya
+      // menyelesaikan Diskusi Kelompok terlebih dahulu.
+      if(page==='kuis' && localStorage.getItem('bk7_diskusi_done')!=='1'){
+        alert('Sebelum mengerjakan Kuis Mandiri, kelompokmu harus menyelesaikan Diskusi Kelompok terlebih dahulu.');
+        page='diskusi';
+      }
       currentPage=page;
       document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active'));
       document.getElementById('page-'+page).classList.add('active');
       document.querySelectorAll('.nav-btn').forEach(btn=>{btn.classList.remove('nav-active'); if(btn.dataset.nav===page) btn.classList.add('nav-active');});
       if(page==='materi') showMateri(currentMateri);
       if(page==='simulasi') initSimulations();
+      if(page==='diskusi'){
+        const kelasVal=document.getElementById('quiz-kelas')?.value;
+        const dKelas=document.getElementById('diskusi-kelas');
+        if(kelasVal && dKelas && !dKelas.value) dKelas.value=kelasVal;
+      }
       if(page==='refleksi'){
         const kuisNama=document.getElementById('quiz-nama')?.value.trim();
         const kuisKelas=document.getElementById('quiz-kelas')?.value;
@@ -469,11 +548,12 @@
     }
 
     function updateProgress(){
-      const total=11; // materi 5 + simulasi + game + kuis + refleksi
+      const total=10; // materi 5 + simulasi + game + diskusi + kuis + refleksi
       let done=0;
       progress.materi.forEach(m=>{if(m) done++;});
       if(progress.simulasi) done++;
       if(progress.game) done++;
+      if(progress.diskusi) done++;
       if(progress.kuis) done++;
       if(progress.refleksi) done++;
       const pct=Math.round((done/total)*100);
@@ -611,13 +691,13 @@
     let sim1Selected=[], sim4Selected=[];
 
     const sim1Correct=[
-      'Membaca soal dengan teliti',
-      'Menentukan cara/rumus yang sesuai',
-      'Mengerjakan langkah per langkah',
-      'Memeriksa jawaban',
-      'Menyimpulkan hasil'
+      'Mencari & menulis artikel berita sekolah',
+      'Mendesain tata letak (layout) mading',
+      'Menggambar ilustrasi/hiasan',
+      'Menulis puisi atau cerpen karya siswa',
+      'Menyiapkan bahan (kertas, lem, gunting)'
     ];
-    const sim1Wrong=['Langsung menebak jawaban','Menghapus soal lalu menggambar','Menelepon teman dulu','Menunda mengerjakan sampai besok'];
+    const sim1Wrong=['Menonton video di rumah tanpa mengerjakan apa pun','Menghitung jumlah ubin di lantai kelas','Membeli jajan di kantin','Tidur siang di kelas'];
 
     function initSimulations(){
       // Sim 1
@@ -690,13 +770,13 @@
       const wrongCount=sim1Selected.filter(s=>!sim1Correct.includes(s)).length;
       if(correctCount===5 && wrongCount===0){
         fb.className='rounded-lg p-3 text-sm bg-emerald-50 text-emerald-800';
-        fb.innerHTML='🎉 <strong>Sempurna!</strong> Kamu berhasil memilih langkah dekomposisi yang benar.';
+        fb.innerHTML='🎉 <strong>Sempurna!</strong> Kamu berhasil memilih bagian-bagian dekomposisi mading yang benar. Perhatikan: kelima bagian ini bisa dikerjakan oleh anggota berbeda secara bersamaan, bukan menunggu urutan.';
         badges.dekomposisi=true;
         progress.simulasi=true;
         updateProgress();
       }else{
         fb.className='rounded-lg p-3 text-sm bg-amber-50 text-amber-800';
-        fb.innerHTML=`💡 Benar: ${correctCount}/5. ${wrongCount>0?'Ada '+wrongCount+' langkah yang kurang tepat. Coba lagi.':'Coba lagi ya!'}`;
+        fb.innerHTML=`💡 Benar: ${correctCount}/5. ${wrongCount>0?'Ada '+wrongCount+' pilihan yang bukan bagian dari proyek mading. Coba lagi.':'Coba lagi ya!'}`;
       }
     }
 
@@ -773,7 +853,7 @@
 
     // Game
     const gameData=[
-      [{q:'Pilih langkah dekomposisi yang benar untuk “Mengerjakan PR IPA”!',opts:['Membaca soal → Menentukan konsep → Menjawab langkah → Mengecek ulang','Menyalin jawaban teman → Selesai','Langsung tidur → besok baru kerja','Menunggu guru memberi jawaban'],correct:0}],
+      [{q:'Tugas kelompok "Membuat Video Profil Sekolah" dipecah menjadi: mencari data, menulis naskah, merekam video, dan mengedit video — dikerjakan oleh 4 anggota berbeda. Ini contoh dari...',opts:['Dekomposisi: memecah tugas besar jadi bagian-bagian terpisah','Algoritma: urutan langkah mengerjakan satu tugas','Pengenalan pola dalam video','Abstraksi memilih info penting'],correct:0}],
       [{q:'Pola deret: 2, 4, 6, 8, ... Angka berikutnya adalah?',opts:['10','12','14','9'],correct:0}],
       [{q:'Saat membuat poster acara, informasi mana yang PALING tidak perlu?',opts:['Judul acara dan tanggal','Nama lengkap panitia','Warna favorit panitia','Lokasi acara'],correct:2}],
       [{q:'Urutan algoritma yang benar untuk membeli buku adalah...',opts:['Cek daftar → Pilih buku → Beli → Cek kembali','Pilih buku → Beli → Daftar → Cek','Beli tanpa cek','Cek → tidur → beli'],correct:0}]
@@ -851,16 +931,26 @@
 
     // Kuis
     const kuisQuestions=[
-      {q:'Berpikir Komputasional adalah...',opts:['Cara berpikir sistematis untuk menyelesaikan masalah','Menghafal rumus saja','Berpikir hanya memakai komputer','Membuat program tanpa langkah'],correct:0},
-      {q:'Pilar BK yang berarti memecah masalah besar menjadi bagian kecil adalah...',opts:['Dekomposisi','Pengenalan Pola','Abstraksi','Algoritma'],correct:0},
-      {q:'Pengenalan pola membantu kita untuk...',opts:['Menemukan keteraturan dan memprediksi','Mengabaikan semua data','Membuat masalah lebih rumit','Tidak perlu langkah'],correct:0},
-      {q:'Abstraksi berarti...',opts:['Memilih informasi penting dan mengabaikan yang tidak relevan','Mengumpulkan semua detail','Membuat masalah tidak jelas','Menghapus data penting'],correct:0},
-      {q:'Langkah algoritma yang benar biasanya berupa urutan...',opts:['Logis dan terstruktur','Acak tanpa urutan','Tidak perlu diperiksa','Berhenti di tengah'],correct:0},
-      {q:'Contoh dekomposisi saat mengerjakan tugas presentasi adalah...',opts:['Tentukan topik → cari materi → buat slide → latihan → presentasi','Langsung presentasi tanpa persiapan','Minta teman membuat semua','Fotokopi presentasi lain tanpa ubah'],correct:0},
-      {q:'Pola deret 1, 3, 5, 7, ... angka berikutnya adalah...',opts:['8','9','10','11'],correct:1},
-      {q:'Saat membuat jadwal belajar, informasi yang tidak relevan misalnya...',opts:['Mapel yang perlu dipelajari','Waktu kosong yang tersedia','Tanggal lahir teman','Target nilai yang ingin dicapai'],correct:2},
-      {q:'Urutan algoritma sederhana membeli sesuatu di minimarket adalah...',opts:['Cek daftar → pilih barang → bayar → cek ulang','Pilih barang → cek ulang → bayar → cek daftar','Bayar dulu → pilih barang','Tidak perlu cek ulang'],correct:0},
-      {q:'BK paling membantu karena...',opts:['Membuat solusi lebih terstruktur dan mudah dikerjakan','Menghafal tanpa dipahami','Menghindari masalah','Hanya untuk komputer'],correct:0}
+      {q:'Berpikir Komputasional adalah...',opts:['Cara berpikir sistematis untuk menyelesaikan masalah','Menghafal rumus saja','Berpikir hanya memakai komputer','Membuat program tanpa langkah'],correct:0,
+       hint:'Ingat 4 pilar BK: dekomposisi, pola, abstraksi, algoritma — semuanya digunakan untuk apa?'},
+      {q:'Pilar BK yang berarti memecah masalah besar menjadi bagian-bagian yang bisa dikerjakan terpisah adalah...',opts:['Dekomposisi','Pengenalan Pola','Abstraksi','Algoritma'],correct:0,
+       hint:'Kata kunci: "memecah menjadi bagian". Pilar mana yang namanya berarti "menguraikan"?'},
+      {q:'Pengenalan pola membantu kita untuk...',opts:['Menemukan keteraturan dan memprediksi','Mengabaikan semua data','Membuat masalah lebih rumit','Tidak perlu langkah'],correct:0,
+       hint:'Pola berkaitan dengan sesuatu yang berulang/teratur. Keteraturan itu berguna untuk apa?'},
+      {q:'Abstraksi berarti...',opts:['Memilih informasi penting dan mengabaikan yang tidak relevan','Mengumpulkan semua detail','Membuat masalah tidak jelas','Menghapus data penting'],correct:0,
+       hint:'Abstraksi = memilih yang PENTING, bukan mengumpulkan SEMUA detail.'},
+      {q:'Langkah algoritma yang benar biasanya berupa urutan...',opts:['Logis dan terstruktur','Acak tanpa urutan','Tidak perlu diperiksa','Berhenti di tengah'],correct:0,
+       hint:'Algoritma harus bisa diikuti orang lain tanpa membingungkan. Bagaimana urutan yang baik?'},
+      {q:'Tugas kelompok "Membuat Presentasi Sejarah Kemerdekaan" dipecah menjadi: mencari data, menulis narasi, mendesain slide, dan berlatih bicara — dikerjakan 4 orang berbeda. Ini contoh dari...',opts:['Dekomposisi','Pengenalan pola','Algoritma','Abstraksi'],correct:0,
+       hint:'Keempat bagian itu bisa dikerjakan ORANG BERBEDA secara terpisah, bukan satu urutan langkah. Apa istilahnya?'},
+      {q:'Pola deret 1, 3, 5, 7, ... angka berikutnya adalah...',opts:['8','9','10','11'],correct:1,
+       hint:'Perhatikan selisih antar angka: 3-1=2, 5-3=2, 7-5=2. Jadi angka berikutnya = 7 + berapa?'},
+      {q:'Saat membuat jadwal belajar, informasi yang tidak relevan misalnya...',opts:['Mapel yang perlu dipelajari','Waktu kosong yang tersedia','Tanggal lahir teman','Target nilai yang ingin dicapai'],correct:2,
+       hint:'Cari informasi yang sama sekali TIDAK berhubungan dengan kegiatan "belajar".'},
+      {q:'Urutan algoritma sederhana membeli sesuatu di minimarket adalah...',opts:['Cek daftar → pilih barang → bayar → cek ulang','Pilih barang → cek ulang → bayar → cek daftar','Bayar dulu → pilih barang','Tidak perlu cek ulang'],correct:0,
+       hint:'Algoritma yang baik dimulai dari mengetahui apa yang dibutuhkan (cek daftar) sebelum bertindak.'},
+      {q:'BK paling membantu karena...',opts:['Membuat solusi lebih terstruktur dan mudah dikerjakan','Menghafal tanpa dipahami','Menghindari masalah','Hanya untuk komputer'],correct:0,
+       hint:'BK bukan soal menghafal, tapi soal cara kita MENGATUR pikiran untuk menyelesaikan masalah.'}
     ];
 
     function validateKuisIdentity(){
@@ -871,26 +961,70 @@
       document.getElementById('btn-mulai-kuis').disabled=!(nama && kelas);
     }
 
+    // Bangun sesi kuis baru: urutan opsi jawaban diacak per soal supaya kunci
+    // jawaban tidak selalu jatuh di posisi yang sama (menghindari siswa menebak pola).
+    function buildKuisSession(){
+      return kuisQuestions.map(q=>{
+        const order=[0,1,2,3];
+        for(let i=order.length-1;i>0;i--){
+          const j=Math.floor(Math.random()*(i+1));
+          [order[i],order[j]]=[order[j],order[i]];
+        }
+        return { q:q.q, hint:q.hint, opts:order.map(i=>q.opts[i]), correct:order.indexOf(q.correct) };
+      });
+    }
+
+    function getAttemptState(){
+      const today=new Date().toISOString().slice(0,10);
+      let state={};
+      try{ state=JSON.parse(localStorage.getItem('bk7_kuis_attempts')||'{}'); }catch(e){}
+      if(state.date!==today){ state={date:today,count:0}; }
+      return state;
+    }
+    function saveAttemptState(state){ localStorage.setItem('bk7_kuis_attempts',JSON.stringify(state)); }
+
     function startKuis(){
       const nama=document.getElementById('quiz-nama').value.trim();
       const kelas=document.getElementById('quiz-kelas').value;
       if(!nama){document.getElementById('quiz-nama-error').classList.remove('hidden');return;}
       if(!kelas){document.getElementById('quiz-kelas-error').classList.remove('hidden');return;}
+
+      const attemptState=getAttemptState();
+      if(attemptState.count>=MAX_ATTEMPTS_PER_DAY){
+        alert('Kamu sudah mengerjakan Kuis Mandiri ini '+MAX_ATTEMPTS_PER_DAY+'x hari ini. Nilai terbaikmu akan direkap guru. Silakan lanjut ke Refleksi.');
+        return;
+      }
+
       document.getElementById('kuis-identity').classList.add('hidden');
       document.getElementById('kuis-area').classList.remove('hidden');
+      kuisSession=buildKuisSession();
+      kuisHintsUsed=new Array(10).fill(false);
       kuisAnswers=new Array(10).fill(-1);
       currentKuisQ=0; quizSubmitted=false;
       showKuisQuestion();
     }
 
     function showKuisQuestion(){
-      const q=kuisQuestions[currentKuisQ];
+      const q=kuisSession[currentKuisQ];
       document.getElementById('kuis-progress-text').textContent=`Soal ${currentKuisQ+1} dari 10`;
       document.getElementById('kuis-progress-bar').style.width=((currentKuisQ+1)/10*100)+'%';
       const area=document.getElementById('kuis-question');
-      area.innerHTML=`<p class="font-medium mb-4">${currentKuisQ+1}. ${q.q}</p><div class="space-y-2">${q.opts.map((o,i)=>`<button class="quiz-option w-full text-left px-4 py-3 rounded-xl text-sm ${kuisAnswers[currentKuisQ]===i?'selected':''}" onclick="selectKuisAnswer(${i})">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}</div>`;
+      const hintShown=kuisHintsUsed[currentKuisQ];
+      area.innerHTML=`
+        <div class="flex justify-between items-start gap-3 mb-3">
+          <p class="font-medium">${currentKuisQ+1}. ${q.q}</p>
+          <button onclick="toggleHint()" class="flex-shrink-0 text-xs px-3 py-1.5 rounded-full bg-amber-100 text-amber-700 font-medium hover:bg-amber-200 transition whitespace-nowrap">💡 Petunjuk</button>
+        </div>
+        <div id="kuis-hint-box" class="${hintShown?'':'hidden'} bg-amber-50 text-amber-800 text-sm rounded-lg p-3 mb-4">💡 ${q.hint||'Tidak ada petunjuk untuk soal ini.'}</div>
+        <div class="space-y-2">${q.opts.map((o,i)=>`<button class="quiz-option w-full text-left px-4 py-3 rounded-xl text-sm ${kuisAnswers[currentKuisQ]===i?'selected':''}" onclick="selectKuisAnswer(${i})">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}</div>`;
       document.getElementById('btn-prev-kuis').classList.toggle('hidden',currentKuisQ===0);
       document.getElementById('btn-next-kuis').textContent=currentKuisQ===9?'Selesai':'Selanjutnya →';
+    }
+
+    function toggleHint(){
+      kuisHintsUsed[currentKuisQ]=true;
+      const box=document.getElementById('kuis-hint-box');
+      if(box) box.classList.remove('hidden');
     }
 
     function selectKuisAnswer(idx){
@@ -910,11 +1044,19 @@
       if(quizSubmitted) return;
       quizSubmitted=true;
       let benar=0;
-      kuisAnswers.forEach((a,i)=>{ if(a===kuisQuestions[i].correct) benar++; });
+      kuisAnswers.forEach((a,i)=>{ if(a===kuisSession[i].correct) benar++; });
       const nilai=benar*10;
+      const jumlahPetunjuk=kuisHintsUsed.filter(Boolean).length;
       const kategori=nilai>=90?'Sangat Baik':nilai>=80?'Baik':nilai>=70?'Cukup':'Perlu Belajar Lagi';
       const nama=document.getElementById('quiz-nama').value.trim();
       const kelas=document.getElementById('quiz-kelas').value;
+
+      // Catat percobaan hari ini SEBELUM merender tombol, supaya sisa percobaan akurat.
+      const attemptState=getAttemptState();
+      attemptState.count+=1;
+      saveAttemptState(attemptState);
+      const remaining=MAX_ATTEMPTS_PER_DAY-attemptState.count;
+
       document.getElementById('kuis-area').classList.add('hidden');
       document.getElementById('kuis-result').classList.remove('hidden');
       document.getElementById('kuis-result-content').innerHTML=`
@@ -929,9 +1071,12 @@
         <div class="flex justify-center gap-6 mb-4">
           <div><div class="text-2xl font-bold text-emerald-600">${benar}</div><div class="text-xs text-gray-500">Benar</div></div>
           <div><div class="text-2xl font-bold text-rose-600">${10-benar}</div><div class="text-xs text-gray-500">Salah</div></div>
+          <div><div class="text-2xl font-bold text-amber-600">${jumlahPetunjuk}</div><div class="text-xs text-gray-500">Petunjuk dipakai</div></div>
         </div>
         ${nilai>=70?'<button onclick="showCertificate()" class="px-6 py-2 bg-primary text-white rounded-lg font-medium hover:bg-indigo-700 transition mb-3">🎓 Lihat Sertifikat</button><br>':''}
-        <button onclick="resetKuis()" class="px-6 py-2 bg-gray-200 rounded-lg font-medium hover:bg-gray-300 transition">Kerjakan Ulang</button>
+        ${remaining>0
+          ? `<button onclick="resetKuis()" class="px-6 py-2 bg-gray-200 rounded-lg font-medium hover:bg-gray-300 transition">Kerjakan Ulang (sisa ${remaining}x hari ini)</button>`
+          : `<p class="text-xs text-gray-400 mt-1">Kamu sudah mencapai batas ${MAX_ATTEMPTS_PER_DAY}x percobaan hari ini. Lanjut ke Refleksi ya.</p>`}
         <div id="kuis-save-status" class="mt-3 text-sm text-gray-500">⏳ Menyimpan hasil...</div>
       `;
 
@@ -946,6 +1091,7 @@
         jawaban_benar:benar,
         jawaban_salah:10-benar,
         persentase_nilai:nilai,
+        jumlah_petunjuk:jumlahPetunjuk,
         tanggal_waktu:new Date().toISOString()
       };
 
@@ -969,7 +1115,7 @@
       }catch(e){}
 
       if(APPS_SCRIPT_URL){
-        try{ await fetch(APPS_SCRIPT_URL,{method:'POST',body:JSON.stringify({type:'kuis',materi:'BK-SMT1','token': '43596e48-d852-4619-9d23-586d0c4be44b',...record})}); }catch(e){}
+        try{ await fetch(APPS_SCRIPT_URL,{method:'POST',body:JSON.stringify({type:'kuis',materi:'BK-SMT1',token:SHARED_TOKEN,...record})}); }catch(e){}
       }
 
       document.getElementById('kuis-save-status').innerHTML='✅ Hasil tersimpan. <button onclick="downloadKuisCSV()" class="ml-2 underline text-indigo-600 text-xs">📥 Unduh CSV</button>';
@@ -985,7 +1131,7 @@
       const nama=document.getElementById('quiz-nama').value.trim();
       const kelas=document.getElementById('quiz-kelas').value;
       let benar=0;
-      kuisAnswers.forEach((a,i)=>{ if(a===kuisQuestions[i].correct) benar++; });
+      kuisAnswers.forEach((a,i)=>{ if(a===kuisSession[i].correct) benar++; });
       const nilai=benar*10;
       const kategori=nilai>=90?'Sangat Baik':nilai>=80?'Baik':'Cukup';
       document.getElementById('cert-nama').textContent=nama;
@@ -1060,10 +1206,49 @@
       }catch(e){}
 
       if(APPS_SCRIPT_URL){
-        try{ await fetch(APPS_SCRIPT_URL,{method:'POST',body:JSON.stringify({type:'refleksi',materi:'BK-SMT1','token': '43596e48-d852-4619-9d23-586d0c4be44b',...entry})}); }catch(e){}
+        try{ await fetch(APPS_SCRIPT_URL,{method:'POST',body:JSON.stringify({type:'refleksi',materi:'BK-SMT1',token:SHARED_TOKEN,...entry})}); }catch(e){}
       }
 
       fb.innerHTML='<div class="bg-emerald-50 text-emerald-800 rounded-lg p-3 text-sm mt-3">✅ Refleksi berhasil disimpan!</div>';
+    }
+
+    // Diskusi Kelompok
+    async function saveDiskusi(){
+      const kelompok=document.getElementById('diskusi-nama-kelompok').value.trim();
+      const kelas=document.getElementById('diskusi-kelas').value;
+      const anggota=document.getElementById('diskusi-anggota').value.trim();
+      const d1=document.getElementById('diskusi-1').value.trim();
+      const d2=document.getElementById('diskusi-2').value.trim();
+      const d3=document.getElementById('diskusi-3').value.trim();
+      const checked=document.getElementById('diskusi-selesai-check').checked;
+      const err=document.getElementById('diskusi-error');
+
+      if(!kelompok||!kelas||!anggota||!d1||!d2||!d3||!checked){
+        err.classList.remove('hidden');
+        return;
+      }
+      err.classList.add('hidden');
+
+      const fb=document.getElementById('diskusi-feedback');
+      fb.classList.remove('hidden');
+      fb.innerHTML='<div class="bg-gray-100 text-gray-600 rounded-lg p-3 text-sm mt-3">⏳ Menyimpan hasil diskusi...</div>';
+
+      const entry={
+        nama_kelompok:kelompok, kelas, anggota, d1, d2, d3,
+        tanggal_waktu:new Date().toISOString()
+      };
+
+      localStorage.setItem('bk7_diskusi_done','1');
+      localStorage.setItem('bk7_diskusi_data',JSON.stringify(entry));
+      progress.diskusi=true;
+      updateProgress();
+
+      if(APPS_SCRIPT_URL){
+        try{ await fetch(APPS_SCRIPT_URL,{method:'POST',body:JSON.stringify({type:'diskusi',materi:'BK-SMT1',token:SHARED_TOKEN,...entry})}); }catch(e){}
+      }
+
+      fb.innerHTML='<div class="bg-emerald-50 text-emerald-800 rounded-lg p-3 text-sm mt-3">✅ Diskusi tersimpan! Kalian sekarang bisa mengerjakan Kuis Mandiri.</div>';
+      setTimeout(()=>navigateTo('kuis'),1200);
     }
 
     // Load refleksi
