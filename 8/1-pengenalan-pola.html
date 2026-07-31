@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Pengenalan Pola (Mendalam) - Kelas 8</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* ===== TOKEN WARNA ===== */
+    --ink:#1E1B3A;
+    --ink-soft:#4B4770;
+    --muted:#7A76A0;
+    --bg:#F6F5FC;
+    --card:#FFFFFF;
+    --line:#E6E3F7;
+
+    --brand:#4338CA;       /* indigo - identitas utama */
+    --brand-dark:#312A9E;
+    --brand-soft:#EEEBFC;
+
+    /* 4 warna pola - dipakai konsisten di kartu bentuk, badge, chip level */
+    --pola-merah:#EF4444;
+    --pola-biru:#3B82F6;
+    --pola-kuning:#F59E0B;
+    --pola-ungu:#8B5CF6;
+
+    --sukses:#16A34A;
+    --sukses-bg:#E9F9EE;
+    --gagal:#DC2626;
+    --gagal-bg:#FDECEC;
+
+    --radius:18px;
+    --radius-sm:12px;
+    --shadow:0 10px 30px -12px rgba(30,27,58,.18);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Plus Jakarta Sans',system-ui,sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    line-height:1.55;
+    -webkit-tap-highlight-color:transparent;
+  }
+  h1,h2,h3,h4{font-family:'Baloo 2',system-ui,sans-serif; margin:0 0 .4em; letter-spacing:.2px;}
+  p{margin:0 0 1em;}
+  button{font-family:inherit;}
+
+  img.logo{height:44px;width:44px;object-fit:contain;border-radius:10px;background:#fff;}
+
+  /* ===== POLA DEKORATIF (signature) ===== */
+  .pola-strip{
+    display:flex; gap:10px; align-items:center; justify-content:center;
+    padding:10px 0;
+  }
+  .pola-strip .pip{width:14px;height:14px;border-radius:4px;flex:0 0 auto;}
+  .pip.c-merah{background:var(--pola-merah);border-radius:50%;}
+  .pip.c-biru{background:var(--pola-biru);}
+  .pip.c-kuning{background:var(--pola-kuning);clip-path:polygon(50% 0%,0% 100%,100% 100%);}
+  .pip.c-ungu{background:var(--pola-ungu);clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);}
+
+  /* ===== HEADER ===== */
+  header.top{
+    background:linear-gradient(135deg,var(--brand-dark),var(--brand) 60%, #6D5CE8);
+    color:#fff;
+    padding:22px 20px 0;
+  }
+  .top-inner{max-width:1100px;margin:0 auto;}
+  .brand-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+  .brand-row .school{font-size:14px;opacity:.85;font-weight:600;}
+  .brand-row .subject{font-size:12px;opacity:.7;}
+  .title-row{margin-top:14px;display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;}
+  .title-row h1{font-size:clamp(26px,3.4vw,38px);}
+  .title-row .desc{opacity:.9;font-size:15px;max-width:56ch;}
+  .level-chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .level-chip{
+    font-size:12.5px;font-weight:700;padding:6px 12px;border-radius:999px;
+    background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.3);
+  }
+
+  /* progress */
+  .progress-wrap{max-width:1100px;margin:18px auto 0;padding:0 0 16px;}
+  .progress-label{display:flex;justify-content:space-between;font-size:12.5px;opacity:.85;margin-bottom:6px;font-weight:600;}
+  .progress-bar{height:10px;border-radius:999px;background:rgba(255,255,255,.22);overflow:hidden;}
+  .progress-fill{height:100%;background:#fff;border-radius:999px;width:0%;transition:width .4s ease;}
+
+  /* ===== NAV TABS ===== */
+  nav.tabs{
+    position:sticky; top:0; z-index:40;
+    background:#fff; border-bottom:1px solid var(--line);
+    box-shadow:0 4px 16px -10px rgba(30,27,58,.15);
+  }
+  .tabs-inner{
+    max-width:1100px;margin:0 auto;display:flex;overflow-x:auto;
+    scrollbar-width:none;
+  }
+  .tabs-inner::-webkit-scrollbar{display:none;}
+  .tab-btn{
+    flex:0 0 auto; appearance:none; border:none; background:transparent;
+    padding:16px 20px; font-size:15px; font-weight:700; color:var(--muted);
+    cursor:pointer; border-bottom:4px solid transparent; white-space:nowrap;
+    display:flex; align-items:center; gap:8px; min-height:56px;
+  }
+  .tab-btn.active{color:var(--brand); border-bottom-color:var(--brand);}
+  .tab-btn .dot-done{width:8px;height:8px;border-radius:50%;background:var(--sukses);display:none;}
+  .tab-btn.done .dot-done{display:inline-block;}
+
+  main{max-width:1100px;margin:0 auto;padding:26px 20px 70px;}
+  section.panel{display:none;}
+  section.panel.active{display:block; animation:fadeIn .35s ease;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+  .card{
+    background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    padding:24px; box-shadow:var(--shadow); margin-bottom:20px;
+  }
+  .card h2{font-size:22px;color:var(--brand-dark);}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:800;
+    color:var(--brand); background:var(--brand-soft); padding:5px 12px;border-radius:999px;
+    text-transform:uppercase;letter-spacing:.5px; margin-bottom:10px;
+  }
+
+  .info-box{
+    background:var(--brand-soft); border:1px solid #DCD7F8; border-radius:var(--radius-sm);
+    padding:16px 18px; font-size:14.5px; color:var(--ink-soft);
+  }
+  .info-box b{color:var(--brand-dark);}
+
+  ul.tujuan{list-style:none;margin:0;padding:0;display:grid;gap:10px;}
+  ul.tujuan li{display:flex;gap:10px;align-items:flex-start;font-size:15px;}
+  ul.tujuan li:before{content:"✓";flex:0 0 auto;width:24px;height:24px;border-radius:50%;background:var(--sukses-bg);color:var(--sukses);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;}
+
+  .badge-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-top:8px;}
+  .badge{
+    text-align:center;padding:18px 10px;border-radius:var(--radius-sm);
+    background:#FBFAFF;border:1px solid var(--line);
+    opacity:.5; filter:grayscale(1);
+  }
+  .badge.unlocked{opacity:1;filter:none;background:linear-gradient(160deg,#fff,var(--brand-soft));border-color:#D9D3F7;}
+  .badge .emoji{font-size:34px;display:block;margin-bottom:6px;}
+  .badge .name{font-size:12.5px;font-weight:700;color:var(--ink-soft);}
+
+  .btn{
+    appearance:none;border:none;cursor:pointer;font-weight:800;font-size:15px;
+    padding:14px 24px;border-radius:14px;min-height:52px;
+    display:inline-flex;align-items:center;gap:8px;justify-content:center;
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .btn:active{transform:scale(.97);}
+  .btn-primary{background:var(--brand);color:#fff;box-shadow:0 8px 20px -8px rgba(67,56,202,.6);}
+  .btn-primary:hover{background:var(--brand-dark);}
+  .btn-ghost{background:#fff;color:var(--brand);border:2px solid var(--brand-soft);}
+  .btn-outline{background:#fff;color:var(--ink-soft);border:2px solid var(--line);}
+  .btn:disabled{opacity:.45;cursor:not-allowed;}
+  .btn-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px;}
+
+  /* ===== MATERI ===== */
+  .materi-layout{display:grid;grid-template-columns:230px 1fr;gap:20px;}
+  @media(max-width:760px){.materi-layout{grid-template-columns:1fr;}}
+  .materi-nav{display:flex;flex-direction:column;gap:8px;}
+  .materi-nav button{
+    text-align:left;appearance:none;border:1px solid var(--line);background:#fff;
+    border-radius:12px;padding:12px 14px;font-size:13.5px;font-weight:700;color:var(--ink-soft);
+    cursor:pointer; display:flex; align-items:center; gap:10px; min-height:52px;
+  }
+  .materi-nav button .num{
+    width:24px;height:24px;border-radius:50%;background:var(--brand-soft);color:var(--brand);
+    display:flex;align-items:center;justify-content:center;font-size:12px;flex:0 0 auto;
+  }
+  .materi-nav button.active{border-color:var(--brand);background:var(--brand-soft);color:var(--brand-dark);}
+
+  .sub-materi{display:none;}
+  .sub-materi.active{display:block;}
+  .sub-materi h3{color:var(--brand-dark);font-size:19px;}
+  .contoh-box{
+    background:#FFF9EC;border:1px dashed #F2D68C;border-radius:var(--radius-sm);
+    padding:14px 16px;font-size:14.5px;margin:14px 0;
+  }
+  .contoh-box b{color:#92670B;}
+
+  /* shapes */
+  .shape{border-radius:10px;flex:0 0 auto;}
+  .shape.lingkaran{border-radius:50%;}
+  .shape.persegi{border-radius:16%;}
+  .shape.segitiga{clip-path:polygon(50% 0%,0% 100%,100% 100%);border-radius:0;}
+  .shape.bintang{clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);border-radius:0;}
+  .warna-merah{background:var(--pola-merah);}
+  .warna-biru{background:var(--pola-biru);}
+  .warna-kuning{background:var(--pola-kuning);}
+  .warna-ungu{background:var(--pola-ungu);}
+  .size-besar{width:64px;height:64px;}
+  .size-kecil{width:38px;height:38px;}
+
+  .strip-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:14px;background:#FBFAFF;border-radius:var(--radius-sm);border:1px solid var(--line);}
+
+  /* ===== SIMULASI ===== */
+  .sim-block{margin-bottom:26px;}
+  .sim-block:last-child{margin-bottom:0;}
+  .rule-banner{
+    background:var(--brand);color:#fff;padding:12px 16px;border-radius:12px;
+    font-weight:700;font-size:14.5px;display:flex;align-items:center;gap:10px;margin-bottom:14px;
+  }
+  .target-card-wrap{display:flex;align-items:center;gap:16px;margin-bottom:14px;flex-wrap:wrap;}
+  .target-label{font-size:12.5px;font-weight:800;color:var(--muted);text-transform:uppercase;}
+
+  .card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:12px;}
+  .pick-card{
+    background:#fff;border:2px solid var(--line);border-radius:14px;
+    display:flex;align-items:center;justify-content:center;height:100px;
+    cursor:pointer;user-select:none;transition:.15s;
+  }
+  .pick-card.selected{border-color:var(--brand);background:var(--brand-soft);}
+  .pick-card.correct{border-color:var(--sukses);background:var(--sukses-bg);}
+  .pick-card.wrong{border-color:var(--gagal);background:var(--gagal-bg);}
+
+  .feedback{
+    margin-top:14px;padding:12px 16px;border-radius:12px;font-weight:700;font-size:14.5px;display:none;
+  }
+  .feedback.show{display:block;}
+  .feedback.ok{background:var(--sukses-bg);color:#146C2E;}
+  .feedback.no{background:var(--gagal-bg);color:#9B1C1C;}
+
+  .mc-options{display:grid;gap:10px;margin-top:6px;}
+  .mc-opt{
+    text-align:left;background:#fff;border:2px solid var(--line);border-radius:12px;
+    padding:14px 16px;font-size:14.5px;font-weight:600;cursor:pointer;min-height:52px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .mc-opt .letter{width:26px;height:26px;border-radius:50%;background:var(--brand-soft);color:var(--brand);flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:800;}
+  .mc-opt.selected{border-color:var(--brand);}
+  .mc-opt.correct{border-color:var(--sukses);background:var(--sukses-bg);}
+  .mc-opt.wrong{border-color:var(--gagal);background:var(--gagal-bg);}
+
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media(max-width:640px){.form-grid{grid-template-columns:1fr;}}
+  label{display:block;font-size:13.5px;font-weight:700;color:var(--ink-soft);}
+  input[type=text], select, textarea{
+    margin-top:6px;width:100%;padding:12px 14px;border:2px solid var(--line);border-radius:12px;
+    font-family:inherit;font-size:15px;color:var(--ink);background:#fff;min-height:48px;
+  }
+  textarea{resize:vertical;min-height:70px;font-weight:500;}
+  input:focus, select:focus, textarea:focus{outline:none;border-color:var(--brand);}
+  .checkline{display:flex;align-items:center;gap:10px;margin-top:18px;font-weight:600;font-size:14px;color:var(--ink-soft);}
+  .checkline input{width:20px;height:20px;}
+
+  .game-level{margin-top:6px;}
+  .footer-credit{text-align:center;padding:30px 20px 50px;color:var(--muted);font-size:13px;}
+  @media print{
+    header.top, nav.tabs, .footer-credit, .btn-row{display:none !important;}
+    #sertifikatCard{display:block !important;box-shadow:none;}
+    section.panel{display:none !important;}
+    #panel-kuis{display:block !important;}
+    #kuisIdentitasCard, #kuisBodyCard, #kuisHasilCard{display:none !important;}
+  }
+
+  ::-webkit-scrollbar{width:8px;height:8px;}
+  ::-webkit-scrollbar-thumb{background:#D8D4F2;border-radius:99px;}
+
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none !important;transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-inner">
+    <div class="brand-row">
+      <img class="logo" src="https://kodingka-pubata.netlify.app/assets/images/logo-pb.png" alt="Logo SMP Putra Bangsa" onerror="this.style.display='none'">
+      <div>
+        <div class="school">SMP Putra Bangsa</div>
+        <div class="subject">Koding dan KA • Kelas 8 SMP</div>
+      </div>
+    </div>
+    <div class="title-row">
+      <div>
+        <h1>🔍 Pengenalan Pola (Mendalam)</h1>
+        <div class="desc">Lanjutan dari Berpikir Komputasional kelas 7 — kali ini kita bongkar pola sampai ke akarnya: pola berciri banyak, pola berbaris, sampai mengubah pola jadi instruksi program.</div>
+        <div class="level-chips">
+          <span class="level-chip">🎨 Level A · Multi-Atribut</span>
+          <span class="level-chip">🔢 Level B · Barisan &amp; Prediksi</span>
+          <span class="level-chip">⚙️ Level C · Pola ke Algoritma</span>
+        </div>
+      </div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-label"><span>Progres Belajar</span><span id="progressPct">0%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <div class="tabs-inner" id="tabBar">
+    <button class="tab-btn active" data-tab="beranda">🏠 Beranda<span class="dot-done"></span></button>
+    <button class="tab-btn" data-tab="materi">📘 Materi<span class="dot-done"></span></button>
+    <button class="tab-btn" data-tab="simulasi">🧪 Simulasi<span class="dot-done"></span></button>
+    <button class="tab-btn" data-tab="game">🕵️ Game<span class="dot-done"></span></button>
+    <button class="tab-btn" data-tab="diskusi">👥 Diskusi<span class="dot-done"></span></button>
+    <button class="tab-btn" data-tab="kuis">📝 Kuis<span class="dot-done"></span></button>
+    <button class="tab-btn" data-tab="refleksi">💭 Refleksi<span class="dot-done"></span></button>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ============ BERANDA ============ -->
+  <section class="panel active" id="panel-beranda">
+    <div class="card">
+      <span class="eyebrow">Selamat datang</span>
+      <h2>Detektif Pola, siap bertugas?</h2>
+      <p>Pola ada di mana-mana: jadwal piket, motif ubin, deret nomor absen, sampai cara AI mengenali wajah di foto. Hari ini kita belajar mengenali pola yang <b>lebih rumit dari sekadar warna sama = cocok</b> — ada pola dengan banyak ciri sekaligus, pola yang berkembang, dan pola yang bisa kita ubah jadi instruksi program.</p>
+      <div class="pola-strip">
+        <div class="pip c-merah"></div><div class="pip c-biru"></div><div class="pip c-kuning"></div><div class="pip c-ungu"></div>
+        <div class="pip c-biru"></div><div class="pip c-merah"></div><div class="pip c-ungu"></div><div class="pip c-kuning"></div>
+      </div>
+      <div class="info-box">
+        📌 <b>Alur belajar modul ini:</b> Materi (bacaan singkat) → Simulasi (latihan terbimbing) → Game "Detektif Pola" (3 level + bonus) → Diskusi kelompok → Kuis mandiri → Refleksi. Modul ini fleksibel, boleh dicicil beberapa pertemuan — tidak harus selesai sekali duduk.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>🎯 Tujuan Pembelajaran</h2>
+      <ul class="tujuan">
+        <li>Mengidentifikasi pola berdasarkan lebih dari satu ciri (warna, bentuk, ukuran) sekaligus</li>
+        <li>Menemukan aturan di balik barisan pola, termasuk pola yang berkembang/bertambah</li>
+        <li>Memprediksi elemen selanjutnya dari sebuah pola dengan alasan yang logis</li>
+        <li>Mengubah pola berulang menjadi instruksi ringkas (dasar dari blok <i>repeat</i> di Scratch/Blockly)</li>
+        <li>Menjelaskan mengapa pengenalan pola penting dilakukan sebelum menyusun program</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>🏆 Badge yang Bisa Kamu Dapat</h2>
+      <div class="badge-grid" id="badgeGridHome">
+        <div class="badge" data-badge="A"><span class="emoji">🎨</span><span class="name">Level A<br>Multi-Atribut</span></div>
+        <div class="badge" data-badge="B"><span class="emoji">🔢</span><span class="name">Level B<br>Barisan</span></div>
+        <div class="badge" data-badge="C"><span class="emoji">⚙️</span><span class="name">Level C<br>Pola ke Algoritma</span></div>
+        <div class="badge" data-badge="MASTER"><span class="emoji">🏆</span><span class="name">Master<br>Detektif Pola</span></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="gotoTab('materi')">Mulai dari Materi →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MATERI ============ -->
+  <section class="panel" id="panel-materi">
+    <div class="card">
+      <span class="eyebrow">Bacaan singkat</span>
+      <h2>📘 Materi Pengenalan Pola</h2>
+      <div class="materi-layout">
+        <div class="materi-nav" id="materiNav">
+          <button class="active" data-sub="1"><span class="num">1</span> Pola Multi-Atribut</button>
+          <button data-sub="2"><span class="num">2</span> Pola Barisan &amp; Prediksi</button>
+          <button data-sub="3"><span class="num">3</span> Pola Menuju Algoritma</button>
+        </div>
+        <div>
+          <div class="sub-materi active" id="sub-1">
+            <h3>1. Pola Multi-Atribut</h3>
+            <p>Di kelas 7, kalian sudah belajar mencocokkan pola sederhana — biasanya berdasarkan <b>satu ciri saja</b>, misalnya warna. Sekarang kita naik level: satu objek punya <b>beberapa ciri (atribut) sekaligus</b> — warna, bentuk, dan ukuran. Sebuah pola bisa dibangun dari kombinasi ciri-ciri ini.</p>
+            <div class="strip-row">
+              <div class="shape lingkaran warna-merah size-besar"></div>
+              <div class="shape persegi warna-biru size-kecil"></div>
+              <div class="shape bintang warna-ungu size-besar"></div>
+              <div class="shape segitiga warna-kuning size-kecil"></div>
+            </div>
+            <p style="margin-top:14px">Perhatikan aturan berikut: <b>"Cocok jika WARNA sama DAN BENTUK sama"</b>. Ini berarti dua syarat harus <b>sama-sama</b> terpenuhi (kata "DAN"). Aturan seperti ini mirip dengan <b>kondisi/logika</b> yang nanti kalian pakai di blok <code>if</code> pada Scratch atau Blockly!</p>
+            <div class="contoh-box">
+              <b>Contoh nyata:</b> Petugas piket kebersihan memilah sampah berdasarkan <i>jenis</i> DAN <i>warna tempat sampah</i> sekaligus — bukan cuma salah satunya. Itu juga pola multi-atribut.
+            </div>
+          </div>
+          <div class="sub-materi" id="sub-2">
+            <h3>2. Pola Barisan &amp; Prediksi</h3>
+            <p>Pola barisan adalah urutan yang punya <b>aturan tetap</b>. Ada dua jenis utama yang perlu kalian kenali:</p>
+            <p><b>a. Pola berulang (repeating pattern)</b> — satu blok kecil diulang terus-menerus.</p>
+            <div class="strip-row">
+              <div class="shape lingkaran warna-merah size-kecil"></div>
+              <div class="shape lingkaran warna-biru size-kecil"></div>
+              <div class="shape lingkaran warna-merah size-kecil"></div>
+              <div class="shape lingkaran warna-biru size-kecil"></div>
+              <div class="shape lingkaran warna-merah size-kecil"></div>
+              <div class="shape lingkaran warna-biru size-kecil"></div>
+            </div>
+            <p style="margin-top:10px"><b>b. Pola bertumbuh (growing pattern)</b> — pola yang jumlah atau nilainya berubah secara teratur tiap langkah. Ini <b>lebih menantang</b> karena tidak sekadar "diulang", tapi "bertambah dengan aturan tertentu".</p>
+            <div class="contoh-box">
+              <b>Contoh:</b> 2, 4, 6, 8, ... setiap angka bertambah 2. Atau: 1, 2, 4, 8, ... setiap angka dikali 2. Untuk menebak angka berikutnya, kalian harus menemukan <b>aturan perubahannya</b> dulu, baru bisa memprediksi.
+            </div>
+          </div>
+          <div class="sub-materi" id="sub-3">
+            <h3>3. Pola Menuju Algoritma</h3>
+            <p>Ini bagian yang menghubungkan Pengenalan Pola dengan Koding. Pola berulang yang kalian temukan bisa ditulis lebih ringkas memakai instruksi <b>"ulangi ... kali"</b> — persis seperti blok <code>repeat</code> di Scratch/Blockly.</p>
+            <div class="strip-row">
+              <div class="shape persegi warna-kuning size-kecil"></div>
+              <div class="shape persegi warna-ungu size-kecil"></div>
+              <div class="shape persegi warna-kuning size-kecil"></div>
+              <div class="shape persegi warna-ungu size-kecil"></div>
+              <div class="shape persegi warna-kuning size-kecil"></div>
+              <div class="shape persegi warna-ungu size-kecil"></div>
+            </div>
+            <p style="margin-top:10px">Pola di atas = Kuning, Ungu, Kuning, Ungu, Kuning, Ungu (6 kartu). Daripada menuliskan "Kuning, Ungu" enam kali, kita cukup menulis:</p>
+            <div class="contoh-box"><b>ulangi 3 kali [ Kuning, Ungu ]</b></div>
+            <p style="margin-top:10px">⚠️ Tapi hati-hati: <b>pola bertumbuh</b> (dari sub-materi 2) tidak bisa ditulis dengan "ulangi X kali" yang isinya tetap — karena isinya berubah tiap langkah. Ini butuh instruksi ulangi yang nilainya berubah (memakai <i>variabel</i>/penghitung), yang akan kalian pelajari lebih lanjut saat mulai membuat program di Scratch/Blockly.</p>
+          </div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-outline" id="materiPrev" onclick="materiNav(-1)">← Sebelumnya</button>
+        <button class="btn btn-primary" id="materiNext" onclick="materiNav(1)">Selanjutnya →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SIMULASI ============ -->
+  <section class="panel" id="panel-simulasi">
+    <div class="card">
+      <span class="eyebrow">Latihan terbimbing</span>
+      <h2>🧪 Simulasi Interaktif</h2>
+      <p>Coba dulu di sini sebelum masuk ke Game "Detektif Pola" yang bernilai. Tidak ada nilai yang dicatat di simulasi — bebas coba-coba!</p>
+    </div>
+
+    <!-- SIMULASI 1 : Level A -->
+    <div class="card sim-block">
+      <h3>🎨 Simulasi 1 — Pola Multi-Atribut</h3>
+      <div class="rule-banner">📏 Aturan: Cocok jika <u>WARNA sama DAN BENTUK sama</u> dengan kartu target</div>
+      <div class="target-card-wrap">
+        <div>
+          <div class="target-label">Kartu Target</div>
+          <div class="pick-card" style="cursor:default;"><div class="shape lingkaran warna-merah size-besar"></div></div>
+        </div>
+      </div>
+      <div class="target-label" style="margin-bottom:8px;display:block;">Ketuk semua kartu yang cocok dengan target:</div>
+      <div class="card-grid" id="sim1Grid"></div>
+      <div class="feedback" id="sim1Feedback"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="sim1Check()">Periksa Jawaban</button>
+        <button class="btn btn-outline" onclick="sim1Reset()">Ulangi</button>
+      </div>
+    </div>
+
+    <!-- SIMULASI 2 : Level B -->
+    <div class="card sim-block">
+      <h3>🔢 Simulasi 2 — Pola Barisan &amp; Prediksi</h3>
+      <div id="sim2Body"></div>
+      <div class="btn-row">
+        <button class="btn btn-outline" onclick="sim2Nav(-1)" id="sim2Prev">← Contoh Sebelumnya</button>
+        <button class="btn btn-primary" onclick="sim2Nav(1)" id="sim2Next">Contoh Berikutnya →</button>
+      </div>
+    </div>
+
+    <!-- SIMULASI 3 : Level C -->
+    <div class="card sim-block">
+      <h3>⚙️ Simulasi 3 — Pola Menuju Algoritma</h3>
+      <p>Pola: <b>Merah, Biru, Biru, Merah, Biru, Biru, Merah, Biru, Biru</b> (9 kartu)</p>
+      <div class="strip-row">
+        <div class="shape lingkaran warna-merah size-kecil"></div><div class="shape lingkaran warna-biru size-kecil"></div><div class="shape lingkaran warna-biru size-kecil"></div>
+        <div class="shape lingkaran warna-merah size-kecil"></div><div class="shape lingkaran warna-biru size-kecil"></div><div class="shape lingkaran warna-biru size-kecil"></div>
+        <div class="shape lingkaran warna-merah size-kecil"></div><div class="shape lingkaran warna-biru size-kecil"></div><div class="shape lingkaran warna-biru size-kecil"></div>
+      </div>
+      <p style="margin-top:14px;font-weight:700;">Instruksi mana yang tepat untuk pola di atas?</p>
+      <div class="mc-options" id="sim3Options"></div>
+      <div class="feedback" id="sim3Feedback"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="gotoTab('game')">Siap! Lanjut ke Game →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GAME ============ -->
+  <section class="panel" id="panel-game">
+    <div class="card">
+      <span class="eyebrow">Bernilai • ada skor</span>
+      <h2>🕵️ Detektif Pola</h2>
+      <p>3 level berjenjang + 1 ronde bonus. Selesaikan Level A dulu untuk membuka Level B, dan seterusnya.</p>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-top:10px;">
+        <div class="level-chip" style="background:var(--brand-soft);color:var(--brand-dark);border-color:#D9D3F7;">⭐ Skor Total: <span id="gameScoreTotal">0</span> / 320</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;">
+        <button class="btn btn-ghost" id="btnLevelA" onclick="showLevel('A')">🎨 Level A</button>
+        <button class="btn btn-outline" id="btnLevelB" onclick="showLevel('B')" disabled>🔢 Level B 🔒</button>
+        <button class="btn btn-outline" id="btnLevelC" onclick="showLevel('C')" disabled>⚙️ Level C 🔒</button>
+        <button class="btn btn-outline" id="btnLevelBonus" onclick="showLevel('BONUS')" disabled>✨ Bonus 🔒</button>
+      </div>
+
+      <!-- LEVEL A -->
+      <div id="levelA" class="game-level">
+        <div class="rule-banner" id="levelARule"></div>
+        <div class="target-card-wrap">
+          <div><div class="target-label">Kartu Target</div><div class="pick-card" id="levelATarget" style="cursor:default;"></div></div>
+          <div style="font-size:13px;color:var(--muted);">Ronde <span id="levelARoundNo">1</span> dari 4</div>
+        </div>
+        <div class="card-grid" id="levelAGrid"></div>
+        <div class="feedback" id="levelAFeedback"></div>
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="levelACheck()">Periksa Ronde</button>
+          <button class="btn btn-outline" onclick="levelANext()" id="levelANextBtn" style="display:none;">Ronde Berikutnya →</button>
+        </div>
+      </div>
+
+      <!-- LEVEL B -->
+      <div id="levelB" class="game-level" style="display:none;">
+        <div style="font-size:13px;color:var(--muted);margin-bottom:8px;">Soal <span id="levelBNo">1</span> dari 5</div>
+        <div class="strip-row" id="levelBStrip" style="margin-bottom:14px;font-size:22px;font-weight:800;"></div>
+        <div class="mc-options" id="levelBOptions"></div>
+        <div class="feedback" id="levelBFeedback"></div>
+        <div class="btn-row"><button class="btn btn-primary" id="levelBNextBtn" onclick="levelBNext()" style="display:none;">Soal Berikutnya →</button></div>
+      </div>
+
+      <!-- LEVEL C -->
+      <div id="levelC" class="game-level" style="display:none;">
+        <div style="font-size:13px;color:var(--muted);margin-bottom:8px;">Soal <span id="levelCNo">1</span> dari 5</div>
+        <div class="strip-row" id="levelCStrip" style="margin-bottom:14px;"></div>
+        <div class="mc-options" id="levelCOptions"></div>
+        <div class="feedback" id="levelCFeedback"></div>
+        <div class="btn-row"><button class="btn btn-primary" id="levelCNextBtn" onclick="levelCNext()" style="display:none;">Soal Berikutnya →</button></div>
+      </div>
+
+      <!-- BONUS -->
+      <div id="levelBonus" class="game-level" style="display:none;">
+        <p><b>✨ Ronde Bonus: Cari yang Aneh!</b> Satu kartu melanggar pola. Ketuk kartu itu.</p>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:8px;">Ronde <span id="bonusNo">1</span> dari 3</div>
+        <div class="strip-row" id="bonusStrip" style="font-size:30px;justify-content:center;"></div>
+        <div class="feedback" id="bonusFeedback"></div>
+        <div class="btn-row"><button class="btn btn-primary" id="bonusNextBtn" onclick="bonusNext()" style="display:none;">Ronde Berikutnya →</button></div>
+      </div>
+
+      <div class="card" id="gameFinishCard" style="display:none;margin-top:18px;background:linear-gradient(160deg,#fff,var(--brand-soft));">
+        <h3>🎉 Kerja bagus, Detektif!</h3>
+        <p>Kamu sudah menyelesaikan semua level Detektif Pola. Skor total: <b id="gameFinalScore">0</b>/320.</p>
+        <div class="btn-row"><button class="btn btn-primary" onclick="gotoTab('diskusi')">Lanjut ke Diskusi Kelompok →</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DISKUSI ============ -->
+  <section class="panel" id="panel-diskusi">
+    <div class="card">
+      <span class="eyebrow">Kerja kelompok</span>
+      <h2>👥 Diskusi Kelompok</h2>
+      <p>Diskusikan bersama kelompok setelah mencoba Simulasi &amp; Game, lalu isi bersama-sama.</p>
+
+      <div class="form-grid">
+        <label>Nama Kelompok
+          <input type="text" id="dNamaKelompok" placeholder="Contoh: Kelompok Segitiga">
+        </label>
+        <label>Kelas
+          <select id="dKelas">
+            <option value="">-- Pilih Kelas --</option>
+            <option value="Kelas 8A">Kelas 8A</option>
+            <option value="Kelas 8B">Kelas 8B</option>
+            <option value="Kelas 8C">Kelas 8C</option>
+          </select>
+        </label>
+      </div>
+      <label style="display:block;margin-top:14px;">Anggota Kelompok (pisahkan dengan koma)
+        <input type="text" id="dAnggota" placeholder="Contoh: Andi, Budi, Citra, Dewi">
+      </label>
+
+      <div style="margin-top:20px;display:grid;gap:16px;">
+        <label>1. Level mana (A/B/C) yang paling sulit disepakati jawabannya oleh kelompok kalian? Kenapa?
+          <textarea id="d1" rows="3" placeholder="Tulis jawaban kelompok di sini..."></textarea>
+        </label>
+        <label>2. Berikan 1 contoh pola multi-atribut DAN 1 contoh pola barisan dari kehidupan sehari-hari kalian sendiri (bukan dari materi).
+          <textarea id="d2" rows="3" placeholder="Tulis jawaban kelompok di sini..."></textarea>
+        </label>
+        <label>3. Menurut kelompok kalian, kenapa mengenali pola penting SEBELUM menulis instruksi berulang (perulangan/loop) di pemrograman?
+          <textarea id="d3" rows="3" placeholder="Tulis jawaban kelompok di sini..."></textarea>
+        </label>
+      </div>
+      <label class="checkline"><input type="checkbox" id="dSetuju"> Kami sudah berdiskusi bersama dan jawaban ini disepakati seluruh anggota kelompok.</label>
+      <div class="feedback" id="diskusiFeedback"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" id="btnSimpanDiskusi" onclick="submitDiskusi()">Simpan &amp; Lanjut ke Kuis</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ KUIS ============ -->
+  <section class="panel" id="panel-kuis">
+    <div class="card" id="kuisIdentitasCard">
+      <span class="eyebrow">Mandiri • individu</span>
+      <h2>📝 Kuis Mandiri</h2>
+      <p>9 soal mencakup Level A, B, dan C. Isi identitas dulu sebelum mulai.</p>
+      <div class="form-grid">
+        <label>Nama Lengkap
+          <input type="text" id="kNama" placeholder="Nama kamu">
+        </label>
+        <label>Kelas
+          <select id="kKelas">
+            <option value="">-- Pilih Kelas --</option>
+            <option value="Kelas 8A">Kelas 8A</option>
+            <option value="Kelas 8B">Kelas 8B</option>
+            <option value="Kelas 8C">Kelas 8C</option>
+          </select>
+        </label>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="startKuis()">Mulai Kuis →</button>
+      </div>
+    </div>
+
+    <div class="card" id="kuisBodyCard" style="display:none;">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
+        <span style="font-weight:700;color:var(--muted);font-size:13.5px;">Soal <span id="kuisNo">1</span> dari 9</span>
+        <span style="font-weight:700;color:var(--muted);font-size:13.5px;">💡 Petunjuk dipakai: <span id="kuisHintCount">0</span></span>
+      </div>
+      <h3 id="kuisPertanyaan" style="font-size:18px;"></h3>
+      <div class="mc-options" id="kuisOptions"></div>
+      <div class="info-box" id="kuisHintBox" style="display:none;margin-top:12px;"></div>
+      <div class="feedback" id="kuisFeedback"></div>
+      <div class="btn-row">
+        <button class="btn btn-outline" onclick="kuisGunakanPetunjuk()" id="btnHint">💡 Gunakan Petunjuk</button>
+        <button class="btn btn-primary" id="btnKuisNext" onclick="kuisNext()" style="display:none;">Soal Berikutnya →</button>
+      </div>
+    </div>
+
+    <div class="card" id="kuisHasilCard" style="display:none;">
+      <h2>📊 Hasil Kuis</h2>
+      <p>Skor: <b id="hasilSkor">0</b>/100 &nbsp;•&nbsp; Benar: <b id="hasilBenar">0</b>/9 &nbsp;•&nbsp; Petunjuk dipakai: <b id="hasilHint">0</b></p>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="simpanKuis()" id="btnSimpanKuis">Simpan Nilai</button>
+      </div>
+      <div class="feedback" id="kuisSimpanFeedback"></div>
+    </div>
+
+    <div class="card" id="sertifikatCard" style="display:none;text-align:center;background:linear-gradient(160deg,#fff,var(--brand-soft));border:2px solid #D9D3F7;">
+      <div style="font-size:44px;">🏅</div>
+      <h2>Sertifikat Detektif Pola</h2>
+      <p style="font-size:15px;">Diberikan kepada</p>
+      <p style="font-size:24px;font-weight:800;color:var(--brand-dark);" id="sertNama">-</p>
+      <p style="font-size:14.5px;">atas pencapaian kategori</p>
+      <p style="font-size:20px;font-weight:800;" id="sertKategori">-</p>
+      <p style="font-size:13px;color:var(--muted);">Modul Pengenalan Pola (Mendalam) • Kelas 8 • SMP Putra Bangsa</p>
+      <div class="btn-row" style="justify-content:center;">
+        <button class="btn btn-outline" onclick="window.print()">🖨️ Cetak Sertifikat</button>
+        <button class="btn btn-primary" onclick="gotoTab('refleksi')">Lanjut ke Refleksi →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ REFLEKSI ============ -->
+  <section class="panel" id="panel-refleksi">
+    <div class="card">
+      <span class="eyebrow">Penutup • individu</span>
+      <h2>💭 Refleksi</h2>
+      <p>Tulis refleksi jujur kamu sendiri tentang proses belajar hari ini.</p>
+      <div class="form-grid">
+        <label>Nama Lengkap
+          <input type="text" id="rNama" placeholder="Nama kamu">
+        </label>
+        <label>Kelas
+          <select id="rKelas">
+            <option value="">-- Pilih Kelas --</option>
+            <option value="Kelas 8A">Kelas 8A</option>
+            <option value="Kelas 8B">Kelas 8B</option>
+            <option value="Kelas 8C">Kelas 8C</option>
+          </select>
+        </label>
+      </div>
+      <div style="margin-top:20px;display:grid;gap:16px;">
+        <label>1. Apa yang saya pelajari tentang Pengenalan Pola hari ini?
+          <textarea id="r1" rows="3"></textarea>
+        </label>
+        <label>2. Level mana (A/B/C) yang paling saya kuasai?
+          <textarea id="r2" rows="3"></textarea>
+        </label>
+        <label>3. Level mana yang masih sulit saya pahami, dan apa yang membuatnya sulit?
+          <textarea id="r3" rows="3"></textarea>
+        </label>
+        <label>4. Bagaimana saya bisa memakai kemampuan mengenali pola ini dalam kehidupan sehari-hari, atau nanti saat coding di Scratch/Blockly?
+          <textarea id="r4" rows="3"></textarea>
+        </label>
+      </div>
+      <div class="feedback" id="refleksiFeedback"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="submitRefleksi()">Simpan Refleksi</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="footer-credit">Dikembangkan oleh <b>Ridwan Na'im, S.Kom.</b> • Tahun 2026</div>
+
+<script>
+/* ================= NAVIGASI TAB ================= */
+const TABS = ['beranda','materi','simulasi','game','diskusi','kuis','refleksi'];
+const visited = new Set(['beranda']);
+
+function gotoTab(name){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active', b.dataset.tab===name));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active', p.id==='panel-'+name));
+  visited.add(name);
+  document.querySelector('.tab-btn[data-tab="'+name+'"]').classList.add('done');
+  updateProgress();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=> gotoTab(btn.dataset.tab));
+});
+function updateProgress(){
+  const pct = Math.round(visited.size / TABS.length * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '%';
+}
+updateProgress();
+
+/* ================= MATERI SUB-NAV ================= */
+let subIdx = 1;
+function showSub(i){
+  subIdx = i;
+  document.querySelectorAll('.materi-nav button').forEach(b=> b.classList.toggle('active', Number(b.dataset.sub)===i));
+  document.querySelectorAll('.sub-materi').forEach(s=> s.classList.toggle('active', s.id==='sub-'+i));
+  document.getElementById('materiPrev').disabled = (i===1);
+  document.getElementById('materiNext').textContent = (i===3) ? 'Lanjut ke Simulasi →' : 'Selanjutnya →';
+}
+document.querySelectorAll('.materi-nav button').forEach(btn=>{
+  btn.addEventListener('click', ()=> showSub(Number(btn.dataset.sub)));
+});
+function materiNav(dir){
+  if(subIdx===3 && dir===1){ gotoTab('simulasi'); return; }
+  const next = Math.min(3, Math.max(1, subIdx+dir));
+  showSub(next);
+}
+showSub(1);
+
+/* ================= BADGES ================= */
+const badgeState = JSON.parse(localStorage.getItem('polaBadges_k8') || '{}');
+function unlockBadge(id){
+  badgeState[id] = true;
+  localStorage.setItem('polaBadges_k8', JSON.stringify(badgeState));
+  renderBadges();
+}
+function renderBadges(){
+  document.querySelectorAll('[data-badge]').forEach(el=>{
+    el.classList.toggle('unlocked', !!badgeState[el.dataset.badge]);
+  });
+}
+
+/* ================= HELPER BENTUK ================= */
+function shapeInner(c){
+  return '<div class="shape '+c.shape+' warna-'+c.color+' size-'+c.size+'"></div>';
+}
+
+/* ================= INTEGRASI GOOGLE APPS SCRIPT ================= */
+// GANTI URL di bawah ini dengan URL deployment Web App Apps Script Anda,
+// contoh: https://script.google.com/macros/s/AKfycb.../exec
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzogYGddTZQFfFr4g4KCaskp8R-anZK1aJ2JdHgQpZHjA19y2jTzijJULmb-9ldSMgc5A/exec";
+const SHARED_TOKEN = '43596e48-d852-4619-9d23-586d0c4be44b'; // harus sama persis dengan SHARED_TOKEN di Apps Script
+const MATERI_CODE = 'PP-SMT1'; // harus terdaftar di MATERI_LIST Apps Script
+
+function nowString(){
+  const d = new Date();
+  const pad = function(n){ return String(n).padStart(2,'0'); };
+  return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+' '+pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds());
+}
+
+function kirimKeSheet(type, dataFields, feedbackElId, btnElId){
+  const fbEl = feedbackElId ? document.getElementById(feedbackElId) : null;
+  const btnEl = btnElId ? document.getElementById(btnElId) : null;
+  if(btnEl){ btnEl.disabled = true; btnEl.textContent = 'Mengirim...'; }
+
+  if(GOOGLE_SCRIPT_URL.indexOf('TEMPEL_URL') !== -1){
+    if(fbEl){
+      fbEl.className = 'feedback show no';
+      fbEl.textContent = '⚠️ Google Apps Script belum dihubungkan (URL masih placeholder di kode). Data ini belum masuk ke Google Sheet — hubungi guru/pengembang untuk memasang URL-nya.';
+    }
+    if(btnEl){ btnEl.disabled = false; if(btnEl.dataset.label) btnEl.textContent = btnEl.dataset.label; }
+    return Promise.resolve({ status: 'offline' });
+  }
+
+  const payload = Object.assign({ token: SHARED_TOKEN, type: type, materi: MATERI_CODE, tanggal_waktu: nowString() }, dataFields);
+
+  return fetch(GOOGLE_SCRIPT_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // hindari CORS preflight ke Apps Script
+    body: JSON.stringify(payload)
+  }).then(function(res){
+    return res.json().catch(function(){ return { status: 'ok' }; });
+  }).then(function(result){
+    if(btnEl){ btnEl.disabled = false; if(btnEl.dataset.label) btnEl.textContent = btnEl.dataset.label; }
+    if(fbEl){
+      if(result.status === 'ok'){
+        fbEl.className = 'feedback show ok';
+        fbEl.textContent = '✅ Tersimpan ke Google Sheet.';
+      } else {
+        fbEl.className = 'feedback show no';
+        fbEl.textContent = '❌ Gagal: ' + (result.message || 'terjadi kesalahan') + '. Coba lagi.';
+      }
+    }
+    return result;
+  }).catch(function(){
+    // Browser sering tidak bisa membaca respons Apps Script lintas-domain.
+    // Request tetap terkirim & diproses di sisi server; kita anggap terkirim.
+    if(btnEl){ btnEl.disabled = false; if(btnEl.dataset.label) btnEl.textContent = btnEl.dataset.label; }
+    if(fbEl){
+      fbEl.className = 'feedback show ok';
+      fbEl.textContent = '✅ Data terkirim. (Status pasti tidak bisa dibaca browser karena batasan lintas-domain — cek Google Sheet untuk konfirmasi.)';
+    }
+    return { status: 'sent-unknown' };
+  });
+}
+
+/* ================= SIMULASI 1 (Level A) ================= */
+const sim1Cards = [
+  {color:'merah',shape:'lingkaran',size:'kecil'},
+  {color:'biru',shape:'lingkaran',size:'besar'},
+  {color:'merah',shape:'persegi',size:'besar'},
+  {color:'merah',shape:'lingkaran',size:'besar'},
+  {color:'kuning',shape:'bintang',size:'kecil'},
+  {color:'merah',shape:'lingkaran',size:'kecil'}
+];
+const sim1Correct = [0,3,5];
+let sim1Selected = new Set();
+let sim1Checked = false;
+
+function renderSim1(){
+  const el = document.getElementById('sim1Grid');
+  el.innerHTML = sim1Cards.map(function(c,i){
+    let cls = 'pick-card';
+    if(sim1Checked){
+      const isC = sim1Correct.indexOf(i) !== -1;
+      const isS = sim1Selected.has(i);
+      if(isC && isS) cls = 'pick-card correct';
+      else if(isS && !isC) cls = 'pick-card wrong';
+      else if(isC && !isS) cls = 'pick-card wrong';
+    } else if(sim1Selected.has(i)){ cls = 'pick-card selected'; }
+    return '<div class="'+cls+'" onclick="sim1Toggle('+i+')">'+shapeInner(c)+'</div>';
+  }).join('');
+}
+function sim1Toggle(i){
+  if(sim1Checked) return;
+  if(sim1Selected.has(i)) sim1Selected.delete(i); else sim1Selected.add(i);
+  renderSim1();
+}
+function sim1Check(){
+  sim1Checked = true;
+  const correctSet = new Set(sim1Correct);
+  const isExact = correctSet.size === sim1Selected.size && Array.from(correctSet).every(function(i){ return sim1Selected.has(i); });
+  const fb = document.getElementById('sim1Feedback');
+  if(isExact){ fb.className = 'feedback show ok'; fb.textContent = '✅ Tepat sekali! Semua kartu bersesuaian ditemukan.'; }
+  else { fb.className = 'feedback show no'; fb.textContent = '❌ Belum semua tepat. Hijau = benar, merah = salah pilih/terlewat. Klik "Ulangi" untuk coba lagi.'; }
+  renderSim1();
+}
+function sim1Reset(){
+  sim1Selected = new Set(); sim1Checked = false;
+  document.getElementById('sim1Feedback').className = 'feedback';
+  renderSim1();
+}
+
+/* ================= SIMULASI 2 (Level B) ================= */
+const sim2Examples = [
+  { label:'Contoh 1: Pola Berulang (ABC-ABC)', display:'🔴 🔵 🟡 &nbsp; 🔴 🔵 🟡 &nbsp; 🔴 🔵 ❓',
+    answer:'🟡', explain:'Blok [🔴,🔵,🟡] terus diulang. Setelah 🔴 🔵 di ujung, giliran berikutnya pasti 🟡.' },
+  { label:'Contoh 2: Pola Bertumbuh (Growing Pattern)', display:'3, 6, 9, 12, ❓',
+    answer:'15', explain:'Setiap angka bertambah 3 secara tetap (aturan penjumlahan), jadi 12 + 3 = 15.' }
+];
+let sim2Idx = 0;
+function renderSim2(){
+  const e = sim2Examples[sim2Idx];
+  document.getElementById('sim2Body').innerHTML =
+    '<div class="target-label" style="display:block;margin-bottom:8px;">'+e.label+'</div>'+
+    '<div class="strip-row" style="font-size:22px;font-weight:800;">'+e.display+'</div>'+
+    '<div class="info-box" style="margin-top:12px;">💡 Jawaban: <b>'+e.answer+'</b> — '+e.explain+'</div>';
+  document.getElementById('sim2Prev').disabled = (sim2Idx===0);
+  document.getElementById('sim2Next').disabled = (sim2Idx===sim2Examples.length-1);
+  document.getElementById('sim2Next').textContent = (sim2Idx===sim2Examples.length-1) ? 'Sudah di Contoh Terakhir' : 'Contoh Berikutnya →';
+}
+function sim2Nav(dir){
+  sim2Idx = Math.min(sim2Examples.length-1, Math.max(0, sim2Idx+dir));
+  renderSim2();
+}
+
+/* ================= SIMULASI 3 (Level C) ================= */
+const sim3Options = ['ulangi 3 kali [Merah, Biru, Biru]','ulangi 9 kali [Merah]','ulangi 3 kali [Biru, Biru, Merah]','ulangi 2 kali [Merah, Biru, Biru, Merah]'];
+const sim3Correct = 0;
+function renderSim3(){
+  const el = document.getElementById('sim3Options');
+  const letters = ['A','B','C','D'];
+  el.innerHTML = sim3Options.map(function(opt,i){
+    return '<div class="mc-opt" onclick="sim3Pilih('+i+')"><span class="letter">'+letters[i]+'</span>'+opt+'</div>';
+  }).join('');
+}
+function sim3Pilih(i){
+  const opts = document.querySelectorAll('#sim3Options .mc-opt');
+  opts.forEach(function(el,idx){ if(idx===sim3Correct) el.classList.add('correct'); else if(idx===i) el.classList.add('wrong'); });
+  const fb = document.getElementById('sim3Feedback');
+  if(i===sim3Correct){ fb.className='feedback show ok'; fb.textContent='✅ Tepat! 3 kartu (Merah, Biru, Biru) diulang 3 kali = 9 kartu.'; }
+  else { fb.className='feedback show no'; fb.textContent='❌ Coba hitung lagi: ada berapa kartu dalam satu blok yang berulang, dan berapa kali blok itu muncul?'; }
+}
+
+/* ================= GAME: LEVEL A (Multi-Atribut) ================= */
+const roundsA = [
+  { rule:'Sama WARNA dan BENTUK dengan kartu target', target:{color:'merah',shape:'lingkaran',size:'besar'},
+    cards:[
+      {color:'merah',shape:'lingkaran',size:'kecil'}, {color:'merah',shape:'persegi',size:'besar'},
+      {color:'biru',shape:'lingkaran',size:'besar'}, {color:'merah',shape:'lingkaran',size:'besar'},
+      {color:'kuning',shape:'segitiga',size:'kecil'}, {color:'merah',shape:'bintang',size:'besar'},
+      {color:'ungu',shape:'lingkaran',size:'kecil'}, {color:'merah',shape:'lingkaran',size:'kecil'}
+    ], correct:[0,3,7] },
+  { rule:'Sama BENTUK dan UKURAN dengan kartu target', target:{color:'biru',shape:'persegi',size:'kecil'},
+    cards:[
+      {color:'merah',shape:'persegi',size:'kecil'}, {color:'biru',shape:'persegi',size:'besar'},
+      {color:'kuning',shape:'bintang',size:'kecil'}, {color:'ungu',shape:'persegi',size:'kecil'},
+      {color:'biru',shape:'lingkaran',size:'kecil'}, {color:'merah',shape:'bintang',size:'besar'},
+      {color:'kuning',shape:'persegi',size:'kecil'}, {color:'biru',shape:'segitiga',size:'besar'}
+    ], correct:[0,3,6] },
+  { rule:'Sama WARNA dan UKURAN dengan kartu target', target:{color:'kuning',shape:'segitiga',size:'besar'},
+    cards:[
+      {color:'kuning',shape:'lingkaran',size:'besar'}, {color:'kuning',shape:'bintang',size:'kecil'},
+      {color:'merah',shape:'segitiga',size:'besar'}, {color:'kuning',shape:'persegi',size:'besar'},
+      {color:'ungu',shape:'segitiga',size:'besar'}, {color:'kuning',shape:'bintang',size:'besar'},
+      {color:'biru',shape:'lingkaran',size:'kecil'}, {color:'merah',shape:'bintang',size:'kecil'}
+    ], correct:[0,3,5] },
+  { rule:'Sama WARNA, BENTUK, dan UKURAN (identik) dengan kartu target', target:{color:'ungu',shape:'bintang',size:'kecil'},
+    cards:[
+      {color:'ungu',shape:'bintang',size:'kecil'}, {color:'ungu',shape:'bintang',size:'besar'},
+      {color:'biru',shape:'bintang',size:'kecil'}, {color:'ungu',shape:'segitiga',size:'kecil'},
+      {color:'ungu',shape:'bintang',size:'kecil'}, {color:'merah',shape:'lingkaran',size:'besar'},
+      {color:'kuning',shape:'persegi',size:'kecil'}, {color:'ungu',shape:'bintang',size:'kecil'}
+    ], correct:[0,4,7] }
+];
+let roundIdx = 0, selectedA = new Set(), roundChecked = false, scoreA = 0;
+
+function renderRoundA(){
+  const r = roundsA[roundIdx];
+  document.getElementById('levelARule').textContent = '📏 Aturan: ' + r.rule;
+  document.getElementById('levelARoundNo').textContent = roundIdx+1;
+  document.getElementById('levelATarget').innerHTML = shapeInner(r.target);
+  selectedA = new Set(); roundChecked = false;
+  renderGridA();
+  document.getElementById('levelAFeedback').className = 'feedback';
+  document.getElementById('levelANextBtn').style.display = 'none';
+}
+function renderGridA(){
+  const r = roundsA[roundIdx];
+  const el = document.getElementById('levelAGrid');
+  el.innerHTML = r.cards.map(function(c,i){
+    let cls = 'pick-card';
+    if(roundChecked){
+      const isC = r.correct.indexOf(i) !== -1;
+      const isS = selectedA.has(i);
+      if(isC && isS) cls = 'pick-card correct';
+      else if(isS && !isC) cls = 'pick-card wrong';
+      else if(isC && !isS) cls = 'pick-card wrong';
+    } else if(selectedA.has(i)){ cls = 'pick-card selected'; }
+    return '<div class="'+cls+'" onclick="toggleA('+i+')">'+shapeInner(c)+'</div>';
+  }).join('');
+}
+function toggleA(i){
+  if(roundChecked) return;
+  if(selectedA.has(i)) selectedA.delete(i); else selectedA.add(i);
+  renderGridA();
+}
+function levelACheck(){
+  if(roundChecked) return;
+  roundChecked = true;
+  const r = roundsA[roundIdx];
+  const correctSet = new Set(r.correct);
+  const isExact = correctSet.size === selectedA.size && Array.from(correctSet).every(function(i){ return selectedA.has(i); });
+  const fb = document.getElementById('levelAFeedback');
+  if(isExact){ scoreA += 25; fb.className='feedback show ok'; fb.textContent='✅ Tepat! Semua kartu yang cocok berhasil ditemukan. +25 poin'; }
+  else { fb.className='feedback show no'; fb.textContent='❌ Belum semua tepat. Hijau = benar, merah = salah pilih/terlewat.'; }
+  renderGridA();
+  updateGameScore();
+  const nextBtn = document.getElementById('levelANextBtn');
+  nextBtn.style.display = 'inline-flex';
+  nextBtn.textContent = (roundIdx===roundsA.length-1) ? 'Level A Selesai! Ke Level B →' : 'Ronde Berikutnya →';
+}
+function levelANext(){
+  if(roundIdx < roundsA.length-1){ roundIdx++; renderRoundA(); }
+  else { unlockBadge('A'); unlockLevelB(); showLevel('B'); }
+}
+
+/* ================= GAME: LEVEL B (Barisan & Prediksi) ================= */
+const soalB = [
+  { display:'🔴 🔵 🔴 🔵 🔴 🔵 🔴 &nbsp;❓', options:['🔴','🔵','🟡','🟣'], correctIndex:1 },
+  { display:'🔴 🔴 🔵 &nbsp; 🔴 🔴 🔵 &nbsp; 🔴 🔴 &nbsp;❓', options:['🔴','🔵','🟡','🟣'], correctIndex:1 },
+  { display:'🔴 🔵 🟡 &nbsp; 🔴 🔵 🟡 &nbsp; 🔴 🔵 &nbsp;❓', options:['🔴','🔵','🟡','🟣'], correctIndex:2 },
+  { display:'2, 4, 6, 8, &nbsp;❓', options:['9','10','11','12'], correctIndex:1 },
+  { display:'1, 2, 4, 8, &nbsp;❓', options:['10','12','16','20'], correctIndex:2 }
+];
+let bIdx = 0, scoreB = 0;
+function renderB(){
+  const q = soalB[bIdx];
+  document.getElementById('levelBNo').textContent = bIdx+1;
+  document.getElementById('levelBStrip').innerHTML = q.display;
+  const el = document.getElementById('levelBOptions');
+  const letters = ['A','B','C','D'];
+  el.innerHTML = q.options.map(function(opt,i){
+    return '<div class="mc-opt" onclick="pilihB('+i+')"><span class="letter">'+letters[i]+'</span>'+opt+'</div>';
+  }).join('');
+  document.getElementById('levelBFeedback').className = 'feedback';
+  document.getElementById('levelBNextBtn').style.display = 'none';
+}
+function pilihB(i){
+  const q = soalB[bIdx];
+  const opts = document.querySelectorAll('#levelBOptions .mc-opt');
+  opts.forEach(function(el,idx){ if(idx===q.correctIndex) el.classList.add('correct'); else if(idx===i) el.classList.add('wrong'); });
+  const fb = document.getElementById('levelBFeedback');
+  if(i===q.correctIndex){ scoreB += 20; fb.className='feedback show ok'; fb.textContent='✅ Benar! +20 poin'; }
+  else { fb.className='feedback show no'; fb.textContent='❌ Belum tepat.'; }
+  updateGameScore();
+  const nextBtn = document.getElementById('levelBNextBtn');
+  nextBtn.style.display = 'inline-flex';
+  nextBtn.textContent = (bIdx===soalB.length-1) ? 'Level B Selesai! Ke Level C →' : 'Soal Berikutnya →';
+}
+function levelBNext(){
+  if(bIdx < soalB.length-1){ bIdx++; renderB(); }
+  else { unlockBadge('B'); unlockLevelC(); showLevel('C'); }
+}
+
+/* ================= GAME: LEVEL C (Pola ke Algoritma) ================= */
+const soalC = [
+  { display:'Pola: Merah, Biru, Merah, Biru, Merah, Biru (6 kartu)',
+    options:['ulangi 2 kali [Merah, Biru, Merah]','ulangi 3 kali [Merah, Biru]','ulangi 6 kali [Merah]','ulangi 2 kali [Merah, Merah, Biru]'], correctIndex:1 },
+  { display:'Pola: Kuning, Kuning, Ungu, Kuning, Kuning, Ungu, Kuning, Kuning, Ungu (9 kartu)',
+    options:['ulangi 3 kali [Kuning, Kuning, Ungu]','ulangi 9 kali [Kuning]','ulangi 3 kali [Kuning, Ungu, Kuning]','ulangi 2 kali [Kuning, Ungu]'], correctIndex:0 },
+  { display:'Pola: Segitiga, Segitiga, Lingkaran, Bintang, Segitiga, Segitiga, Lingkaran, Bintang (8 kartu)',
+    options:['ulangi 2 kali [Segitiga, Segitiga, Lingkaran, Bintang]','ulangi 4 kali [Segitiga, Lingkaran]','ulangi 8 kali [Segitiga]','ulangi 2 kali [Segitiga, Lingkaran, Bintang, Segitiga]'], correctIndex:0 },
+  { display:'Pola: 1 kotak, 2 kotak, 3 kotak, 4 kotak (bertambah 1 tiap baris). Apakah bisa ditulis hanya dengan blok "ulangi X kali [isi tetap]" yang sederhana?',
+    options:['Bisa, karena semua barisnya sama','Tidak bisa langsung — jumlahnya bertambah tiap baris, butuh \'ulangi\' bernilai berubah (variabel/penghitung)','Bisa, tapi harus ditulis 100 baris kode','Tidak berhubungan dengan pemrograman sama sekali'], correctIndex:1 },
+  { display:'Pola: Bintang, Lingkaran, Lingkaran, Bintang, Lingkaran, Lingkaran, Bintang, Lingkaran, Lingkaran (9 kartu)',
+    options:['ulangi 3 kali [Bintang, Lingkaran, Lingkaran]','ulangi 9 kali [Bintang]','ulangi 3 kali [Lingkaran, Lingkaran, Bintang]','ulangi 2 kali [Bintang, Lingkaran, Lingkaran, Bintang]'], correctIndex:0 }
+];
+let cIdx = 0, scoreC = 0;
+function renderC(){
+  const q = soalC[cIdx];
+  document.getElementById('levelCNo').textContent = cIdx+1;
+  document.getElementById('levelCStrip').innerHTML = '<b>'+q.display+'</b>';
+  const el = document.getElementById('levelCOptions');
+  const letters = ['A','B','C','D'];
+  el.innerHTML = q.options.map(function(opt,i){
+    return '<div class="mc-opt" onclick="pilihC('+i+')"><span class="letter">'+letters[i]+'</span>'+opt+'</div>';
+  }).join('');
+  document.getElementById('levelCFeedback').className = 'feedback';
+  document.getElementById('levelCNextBtn').style.display = 'none';
+}
+function pilihC(i){
+  const q = soalC[cIdx];
+  const opts = document.querySelectorAll('#levelCOptions .mc-opt');
+  opts.forEach(function(el,idx){ if(idx===q.correctIndex) el.classList.add('correct'); else if(idx===i) el.classList.add('wrong'); });
+  const fb = document.getElementById('levelCFeedback');
+  if(i===q.correctIndex){ scoreC += 20; fb.className='feedback show ok'; fb.textContent='✅ Benar! +20 poin'; }
+  else { fb.className='feedback show no'; fb.textContent='❌ Belum tepat.'; }
+  updateGameScore();
+  const nextBtn = document.getElementById('levelCNextBtn');
+  nextBtn.style.display = 'inline-flex';
+  nextBtn.textContent = (cIdx===soalC.length-1) ? 'Level C Selesai! Ke Ronde Bonus →' : 'Soal Berikutnya →';
+}
+function levelCNext(){
+  if(cIdx < soalC.length-1){ cIdx++; renderC(); }
+  else { unlockBadge('C'); unlockLevelBonus(); showLevel('BONUS'); }
+}
+
+/* ================= GAME: BONUS (Cari yang Aneh) ================= */
+const soalBonus = [
+  { items:['🔴','🔴','🔴','🔵','🔴'], oddIndex:3 },
+  { items:['🟡','🟡','🟣','🟡','🟡'], oddIndex:2 },
+  { items:['Lingkaran','Lingkaran','Lingkaran','Segitiga','Lingkaran'], oddIndex:3 }
+];
+let bonusIdx = 0, scoreBonus = 0;
+function renderBonus(){
+  const q = soalBonus[bonusIdx];
+  document.getElementById('bonusNo').textContent = bonusIdx+1;
+  const el = document.getElementById('bonusStrip');
+  el.innerHTML = q.items.map(function(it,i){
+    return '<span onclick="pilihBonus('+i+')" style="cursor:pointer;padding:10px 16px;border-radius:12px;border:2px solid var(--line);background:#fff;font-size:.6em;font-weight:800;">'+it+'</span>';
+  }).join('');
+  document.getElementById('bonusFeedback').className = 'feedback';
+  document.getElementById('bonusNextBtn').style.display = 'none';
+}
+function pilihBonus(i){
+  const q = soalBonus[bonusIdx];
+  const fb = document.getElementById('bonusFeedback');
+  const spans = document.querySelectorAll('#bonusStrip span');
+  spans.forEach(function(s,idx){
+    if(idx===q.oddIndex) s.style.borderColor = 'var(--sukses)';
+    else if(idx===i) s.style.borderColor = 'var(--gagal)';
+  });
+  if(i===q.oddIndex){ scoreBonus += 10; fb.className='feedback show ok'; fb.textContent='✅ Tepat, itu yang beda sendiri! +10 poin'; }
+  else { fb.className='feedback show no'; fb.textContent='❌ Bukan itu — lihat yang berpinggir hijau, itu jawabannya.'; }
+  updateGameScore();
+  const nextBtn = document.getElementById('bonusNextBtn');
+  nextBtn.style.display = 'inline-flex';
+  nextBtn.textContent = (bonusIdx===soalBonus.length-1) ? 'Selesai! Lihat Skor Akhir' : 'Ronde Berikutnya →';
+}
+function bonusNext(){
+  if(bonusIdx < soalBonus.length-1){ bonusIdx++; renderBonus(); }
+  else { finishGame(); }
+}
+function finishGame(){
+  unlockBadge('MASTER');
+  document.getElementById('levelBonus').style.display = 'none';
+  document.getElementById('gameFinalScore').textContent = scoreA+scoreB+scoreC+scoreBonus;
+  document.getElementById('gameFinishCard').style.display = 'block';
+}
+function updateGameScore(){
+  document.getElementById('gameScoreTotal').textContent = scoreA+scoreB+scoreC+scoreBonus;
+}
+
+/* ================= GAME: NAVIGASI & UNLOCK LEVEL ================= */
+const unlocked = { A:true, B:false, C:false, BONUS:false };
+function showLevel(lv){
+  if(!unlocked[lv]) return;
+  document.getElementById('levelA').style.display = (lv==='A') ? 'block' : 'none';
+  document.getElementById('levelB').style.display = (lv==='B') ? 'block' : 'none';
+  document.getElementById('levelC').style.display = (lv==='C') ? 'block' : 'none';
+  document.getElementById('levelBonus').style.display = (lv==='BONUS') ? 'block' : 'none';
+  document.getElementById('gameFinishCard').style.display = 'none';
+  document.getElementById('btnLevelA').className = 'btn ' + (lv==='A' ? 'btn-ghost' : 'btn-outline');
+  document.getElementById('btnLevelB').className = 'btn ' + (lv==='B' ? 'btn-ghost' : 'btn-outline') + (unlocked.B ? '' : '');
+  document.getElementById('btnLevelC').className = 'btn ' + (lv==='C' ? 'btn-ghost' : 'btn-outline');
+  document.getElementById('btnLevelBonus').className = 'btn ' + (lv==='BONUS' ? 'btn-ghost' : 'btn-outline');
+}
+function unlockLevelB(){ unlocked.B = true; const b=document.getElementById('btnLevelB'); b.disabled=false; b.textContent='🔢 Level B'; }
+function unlockLevelC(){ unlocked.C = true; const b=document.getElementById('btnLevelC'); b.disabled=false; b.textContent='⚙️ Level C'; }
+function unlockLevelBonus(){ unlocked.BONUS = true; const b=document.getElementById('btnLevelBonus'); b.disabled=false; b.textContent='✨ Bonus'; }
+
+/* ================= KUIS MANDIRI ================= */
+const kuisSoal = [
+  { pertanyaan:'Kartu target: Biru Segitiga Besar. Aturan: sama WARNA dan BENTUK. Kartu mana yang PASTI cocok?',
+    options:['Biru Segitiga Kecil','Merah Segitiga Besar','Biru Lingkaran Besar','Kuning Segitiga Besar'], correctIndex:0,
+    hint:'Cari yang warnanya BIRU dan bentuknya SEGITIGA. Ukuran boleh beda karena tidak disebutkan di aturan.' },
+  { pertanyaan:"Dua benda dikatakan mengikuti pola 'sama UKURAN dan BENTUK' jika...",
+    options:['warnanya harus sama juga','bentuk dan ukurannya sama, warna boleh beda','hanya warnanya yang sama','semua atributnya harus beda'], correctIndex:1,
+    hint:"Ingat: 'sama UKURAN dan BENTUK' berarti hanya dua ciri itu yang harus sama. Ciri lain (warna) bebas." },
+  { pertanyaan:'Sebuah pola memakai aturan WARNA + BENTUK + UKURAN sekaligus (identik). Pola ini disebut pola...',
+    options:['1 atribut','2 atribut','3 atribut / pola paling ketat','bukan pola'], correctIndex:2,
+    hint:'Kalau SEMUA ciri (warna+bentuk+ukuran) harus sama, hitung ada berapa ciri yang disyaratkan.' },
+  { pertanyaan:'2, 4, 6, 8, ...  Berapa angka berikutnya?',
+    options:['9','10','12','16'], correctIndex:1,
+    hint:'Lihat selisih antar angka: 4-2=2, 6-4=2, 8-6=2. Angka berikutnya = angka terakhir + selisih itu.' },
+  { pertanyaan:'🔴🔵🔴🔵🔴🔵 pola berikutnya adalah...',
+    options:['🔴','🔵','🟡','🟣'], correctIndex:0,
+    hint:'Hitung urutan warnanya dari awal, lalu cocokkan posisi ke berapa yang hilang.' },
+  { pertanyaan:'1, 2, 4, 8, 16, ... pola ini disebut pola...',
+    options:['berulang tetap','menurun','bertumbuh/berkembang','acak'], correctIndex:2,
+    hint:'Bandingkan dengan pola berulang biasa: apakah angkanya tetap sama atau terus berubah?' },
+  { pertanyaan:'Pola: Kuning, Ungu, Kuning, Ungu, Kuning, Ungu (6 kartu). Instruksi mana yang tepat?',
+    options:['ulangi 3 kali [Kuning, Ungu]','ulangi 6 kali [Kuning]','ulangi 2 kali [Kuning, Ungu, Kuning]','ulangi 3 kali [Ungu, Kuning]'], correctIndex:0,
+    hint:"Hitung berapa kartu dalam satu 'blok' yang diulang, lalu berapa kali blok itu muncul." },
+  { pertanyaan:'Kenapa mengenali pola penting SEBELUM menulis kode perulangan (loop)?',
+    options:['supaya kode lebih panjang','supaya kita tahu APA yang harus diulang dan BERAPA kali','tidak penting, bisa asal tebak','supaya komputer bingung'], correctIndex:1,
+    hint:"Pikirkan: kalau kita tidak tahu apa yang diulang, bisakah kita menuliskan instruksi 'ulangi'?" },
+  { pertanyaan:'Pola yang jumlahnya bertambah tiap langkah (1 kotak, 2 kotak, 3 kotak, ...) butuh instruksi ulangi yang...',
+    options:['tetap sama tiap kali','nilainya berubah/pakai penghitung (variabel)','tidak bisa diprogram','hanya bisa 1 kali ulang'], correctIndex:1,
+    hint:'Bandingkan dengan pola bertumbuh yang sudah dibahas di Materi sub-bab 2.' }
+];
+let kuisIndex = 0, kuisSkorBenar = 0, kuisJawaban = [], kuisHintUsed = 0;
+
+function startKuis(){
+  const nama = document.getElementById('kNama').value.trim();
+  const kelas = document.getElementById('kKelas').value;
+  if(!nama || !kelas){ alert('Isi nama lengkap dan pilih kelas dulu ya.'); return; }
+  window.kuisNama = nama; window.kuisKelasVal = kelas;
+  document.getElementById('kuisIdentitasCard').style.display = 'none';
+  document.getElementById('kuisBodyCard').style.display = 'block';
+  kuisIndex = 0; kuisSkorBenar = 0; kuisHintUsed = 0; kuisJawaban = [];
+  renderKuisSoal();
+}
+function renderKuisSoal(){
+  const q = kuisSoal[kuisIndex];
+  document.getElementById('kuisNo').textContent = kuisIndex+1;
+  document.getElementById('kuisPertanyaan').textContent = q.pertanyaan;
+  document.getElementById('kuisHintCount').textContent = kuisHintUsed;
+  document.getElementById('kuisHintBox').style.display = 'none';
+  const hintBtn = document.getElementById('btnHint');
+  hintBtn.style.display = 'inline-flex'; hintBtn.disabled = false;
+  const optEl = document.getElementById('kuisOptions');
+  const letters = ['A','B','C','D'];
+  optEl.innerHTML = q.options.map(function(opt,i){
+    return '<div class="mc-opt" onclick="kuisPilih('+i+')"><span class="letter">'+letters[i]+'</span>'+opt+'</div>';
+  }).join('');
+  document.getElementById('kuisFeedback').className = 'feedback';
+  document.getElementById('btnKuisNext').style.display = 'none';
+}
+function kuisPilih(i){
+  if(kuisJawaban[kuisIndex] !== undefined) return;
+  const q = kuisSoal[kuisIndex];
+  kuisJawaban[kuisIndex] = i;
+  const opts = document.querySelectorAll('#kuisOptions .mc-opt');
+  opts.forEach(function(el,idx){ if(idx===q.correctIndex) el.classList.add('correct'); else if(idx===i) el.classList.add('wrong'); });
+  const fb = document.getElementById('kuisFeedback');
+  if(i===q.correctIndex){ kuisSkorBenar++; fb.className='feedback show ok'; fb.textContent='✅ Benar!'; }
+  else { fb.className='feedback show no'; fb.textContent='❌ Belum tepat. Jawaban benar sudah ditandai hijau.'; }
+  document.getElementById('btnHint').disabled = true;
+  const nextBtn = document.getElementById('btnKuisNext');
+  nextBtn.style.display = 'inline-flex';
+  nextBtn.textContent = (kuisIndex===kuisSoal.length-1) ? 'Lihat Hasil →' : 'Soal Berikutnya →';
+}
+function kuisGunakanPetunjuk(){
+  const q = kuisSoal[kuisIndex];
+  const box = document.getElementById('kuisHintBox');
+  box.style.display = 'block';
+  box.innerHTML = '💡 <b>Petunjuk:</b> ' + q.hint;
+  kuisHintUsed++;
+  document.getElementById('kuisHintCount').textContent = kuisHintUsed;
+  document.getElementById('btnHint').disabled = true;
+}
+function kuisNext(){
+  if(kuisIndex < kuisSoal.length-1){ kuisIndex++; renderKuisSoal(); }
+  else { finishKuis(); }
+}
+function finishKuis(){
+  document.getElementById('kuisBodyCard').style.display = 'none';
+  const skor = Math.round(kuisSkorBenar / kuisSoal.length * 100);
+  document.getElementById('hasilSkor').textContent = skor;
+  document.getElementById('hasilBenar').textContent = kuisSkorBenar;
+  document.getElementById('hasilHint').textContent = kuisHintUsed;
+  document.getElementById('kuisHasilCard').style.display = 'block';
+  window.kuisSkorFinal = skor;
+}
+function simpanKuis(){
+  const skor = window.kuisSkorFinal;
+  const benar = kuisSkorBenar;
+  const salah = kuisSoal.length - benar;
+  document.getElementById('btnSimpanKuis').dataset.label = 'Simpan Nilai';
+  kirimKeSheet('kuis', {
+    nama_siswa: window.kuisNama,
+    kelas: window.kuisKelasVal,
+    nilai_kuis: skor,
+    jawaban_benar: benar,
+    jawaban_salah: salah,
+    persentase_nilai: skor,
+    jumlah_petunjuk: kuisHintUsed
+  }, 'kuisSimpanFeedback', 'btnSimpanKuis').then(function(){
+    tampilkanSertifikat(skor);
+  });
+}
+function tampilkanSertifikat(skor){
+  let kategori;
+  if(skor >= 89) kategori = '🏆 Master Detektif Pola';
+  else if(skor >= 67) kategori = '🕵️ Detektif Pola Handal';
+  else kategori = '🔍 Detektif Pola Pemula';
+  document.getElementById('sertNama').textContent = window.kuisNama;
+  document.getElementById('sertKategori').textContent = kategori;
+  document.getElementById('sertifikatCard').style.display = 'block';
+  document.getElementById('kuisHasilCard').style.display = 'none';
+  document.getElementById('sertifikatCard').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+/* ================= DISKUSI KELOMPOK ================= */
+function submitDiskusi(){
+  const namaKelompok = document.getElementById('dNamaKelompok').value.trim();
+  const kelas = document.getElementById('dKelas').value;
+  const anggota = document.getElementById('dAnggota').value.trim();
+  const d1 = document.getElementById('d1').value.trim();
+  const d2 = document.getElementById('d2').value.trim();
+  const d3 = document.getElementById('d3').value.trim();
+  const setuju = document.getElementById('dSetuju').checked;
+  const fb = document.getElementById('diskusiFeedback');
+
+  if(!namaKelompok || !kelas || !anggota || !d1 || !d2 || !d3){
+    fb.className = 'feedback show no';
+    fb.textContent = '⚠️ Lengkapi semua isian dulu ya (nama kelompok, kelas, anggota, dan ketiga jawaban).';
+    return;
+  }
+  if(!setuju){
+    fb.className = 'feedback show no';
+    fb.textContent = '⚠️ Centang dulu kotak persetujuan kelompok di bawah pertanyaan.';
+    return;
+  }
+  document.getElementById('btnSimpanDiskusi').dataset.label = 'Simpan & Lanjut ke Kuis';
+  kirimKeSheet('diskusi', {
+    nama_kelompok: namaKelompok, kelas: kelas, anggota: anggota, d1: d1, d2: d2, d3: d3
+  }, 'diskusiFeedback', 'btnSimpanDiskusi').then(function(){
+    setTimeout(function(){ gotoTab('kuis'); }, 1200);
+  });
+}
+
+/* ================= REFLEKSI ================= */
+function submitRefleksi(){
+  const nama = document.getElementById('rNama').value.trim();
+  const kelas = document.getElementById('rKelas').value;
+  const r1 = document.getElementById('r1').value.trim();
+  const r2 = document.getElementById('r2').value.trim();
+  const r3 = document.getElementById('r3').value.trim();
+  const r4 = document.getElementById('r4').value.trim();
+  const fb = document.getElementById('refleksiFeedback');
+  if(!nama || !kelas || !r1 || !r2 || !r3 || !r4){
+    fb.className = 'feedback show no';
+    fb.textContent = '⚠️ Lengkapi semua isian dulu ya.';
+    return;
+  }
+  kirimKeSheet('refleksi', { nama: nama, kelas: kelas, r1:r1, r2:r2, r3:r3, r4:r4 }, 'refleksiFeedback', null);
+}
+
+/* ================= INISIALISASI ================= */
+renderBadges();
+renderSim1();
+renderSim2();
+renderSim3();
+renderRoundA();
+renderB();
+renderC();
+renderBonus();
+showLevel('A');
+</script>
+
+</body>
+</html>
